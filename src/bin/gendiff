@@ -1,5 +1,7 @@
 #!/usr/bin/env php
 
+</php
+
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
 if (file_exists($autoloadPath1)) {
@@ -8,3 +10,21 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
+require('/path/to/src/docopt.php');
+
+$args = Docopt::handle($doc);
+
+$args
+$doc = <<<DOC
+./src/bin/gendiff.
+
+Usage: ./src/bin/gendiff [-hso FILE] [--quiet | --verbose] [INPUT ...]
+
+Options:
+  -h --help    show this
+  -s --sorted  sorted output
+  -o FILE      specify output file [default: ./test.txt]
+  --quiet      print less text
+  --verbose    print more text
+
+DOC;
