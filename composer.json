@@ -1,6 +1,11 @@
 {
     "name": "hexlet/code",
+    "description": "php project lvl 2",
+    "license": "MIT",
     "autoload": {
+        "files": [
+            "src/Cli.php"
+        ],
         "psr-4": {
             "Hexlet\\Code\\": "src/"
         }
@@ -11,5 +16,10 @@
             "email": "autlevaslan@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "docopt/docopt": "^1.0"
+    },
+    "bin": [
+        "bin/gendiff"
+    ]
 }
