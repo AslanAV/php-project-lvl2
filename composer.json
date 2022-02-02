@@ -1,14 +1,9 @@
 {
     "name": "hexlet/code",
-    "description": "hexlet php-package",
-    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Hexlet\\Code\\": "src/"
-        },
-        "files": [
-            "src/docopt.php"
-        ]
+        }
     },
     "authors": [
         {
@@ -16,14 +11,5 @@
             "email": "autlevaslan@gmail.com"
         }
     ],
-    "require": {
-        "docopt/docopt": "^1.0"
-    }
-    ,
-    "require-dev": {
-        "roave/security-advisories": "dev-latest"
-    },
-    "bin": [
-      "src/bin/gendiff"
-    ]
+    "require": {}
 }
