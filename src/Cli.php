@@ -5,7 +5,7 @@ namespace Hexlet\Code\Cli;
 
 use Docopt;
 
-function gendiff()
+function genHelp()
 {
     $doc = <<<DOC
     gendiff -h
@@ -23,4 +23,4 @@ DOC;
         echo $k . ': ' . json_encode($v) . PHP_EOL;
     }
 }
-gendiff();
+genHelp();
