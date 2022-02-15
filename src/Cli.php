@@ -5,22 +5,29 @@ namespace Hexlet\Code\Cli;
 
 use Docopt;
 
-function genHelp()
+use function Hexlet\Code\Differ\gendiff;
+
+function genHelp(): string
 {
     $doc = <<<DOC
-    gendiff -h
     Generate diff
+    
     Usage:
       gendiff (-h|--help)
       gendiff (-v|--version)
+      gendiff [--format <fmt>] <firstFile> <secondFile>
+    
     Options:
       -h --help                     Show this screen
       -v --version                  Show version
-DOC;
-    //require('/path/to/src/docopt.php');
-    $args = Docopt::handle($doc, ['version' => '0.0.1']);
-    foreach ($args as $k => $v) {
-        echo $k . ': ' . json_encode($v) . PHP_EOL;
-    }
+      --format <fmt>                Report format [default: stylish]
+    DOC;
+
+    $args = Docopt::handle($doc, ['version' => 'gendiff v: 0.0.1']);
+
+    $firstFile = $args['<firstFile>'];
+    $secondFile = $args['<secondFile>'];
+    $format = $args['--format'];
+
+    return gendiff($firstFile, $secondFile, $format);
 }
-genHelp();

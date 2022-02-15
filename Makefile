@@ -1,9 +1,6 @@
 install:
 	composer install
 
-console:
-	composer exec --verbose psysh
-
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src tests
 	composer exec --verbose phpstan -- --level=8 analyse src tests
@@ -19,6 +16,3 @@ test-coverage:
 
 validate:
 	composer validate
-
-gendiff:
-	php ./src/bin/gendiff
