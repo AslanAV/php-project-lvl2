@@ -4,6 +4,12 @@ namespace Hexlet\Code\Differ;
 
 function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'):string
 {
+    if (substr($firstFile, 1) !== '/') {
+        $firstFile = __DIR__. '/../' . $firstFile;
+    }
+    if (substr($secondFile, 1) !== '/') {
+        $secondFile = __DIR__. '/../' . $secondFile;
+    }
     $firstFileContent = file_get_contents($firstFile);
     $firstFixtures = json_decode($firstFileContent, true);
 
