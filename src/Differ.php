@@ -4,12 +4,8 @@ namespace Hexlet\Code\Differ;
 
 function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
-    if (substr($firstFile, 1) !== '/') {
-        $firstFile = __DIR__ . '/../' . $firstFile;
-    }
-    if (substr($secondFile, 1) !== '/') {
-        $secondFile = __DIR__ . '/../' . $secondFile;
-    }
+    $firstFile = fullPathToFile($firstFile);
+    $secondFile = fullPathToFile($secondFile);
 
     $firstFileContent = file_get_contents($firstFile);
     if ($firstFileContent === false) {
@@ -50,4 +46,12 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
     $ResultWithEnd = "{$result}}\n";
     print_r($ResultWithEnd);
     return $ResultWithEnd;
+}
+
+function fullPathToFile(string $file): string
+{
+    if (substr($file, 1) !== '/') {
+        $firstFile = __DIR__ . '/../' . $file;
+    }
+    return $file;
 }
