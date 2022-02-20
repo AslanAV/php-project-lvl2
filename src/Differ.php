@@ -2,23 +2,31 @@
 
 namespace Hexlet\Code\Differ;
 
-function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'):string
+function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
     if (substr($firstFile, 1) !== '/') {
-        $firstFile = __DIR__. '/../' . $firstFile;
+        $firstFile = __DIR__ . '/../' . $firstFile;
     }
     if (substr($secondFile, 1) !== '/') {
-        $secondFile = __DIR__. '/../' . $secondFile;
+        $secondFile = __DIR__ . '/../' . $secondFile;
     }
+
     $firstFileContent = file_get_contents($firstFile);
+    if ($firstFileContent === false) {
+        throw new \Exception("Can't read file: " . $firstFile);
+    }
     $firstFixtures = json_decode($firstFileContent, true);
 
+
     $secondFileContent = file_get_contents($secondFile);
+    if ($secondFileContent === false) {
+        throw new \Exception("Can't read file: " . $secondFile);
+    }
     $secondFixtures = json_decode($secondFileContent, true);
 
     $keys = array_unique(array_merge(array_keys($firstFixtures), array_keys($secondFixtures)));
     asort($keys);
-    $result = array_reduce($keys, function ($acc, $key) use ($firstFixtures, $secondFixtures){
+    $result = array_reduce($keys, function ($acc, $key) use ($firstFixtures, $secondFixtures) {
         if (array_key_exists($key, $firstFixtures) && is_bool($firstFixtures[$key])) {
             $firstFixtures[$key] = ($firstFixtures[$key] === true) ? "true" : "false";
         }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Hexlet\Code\Cli;
 
 use Docopt;
