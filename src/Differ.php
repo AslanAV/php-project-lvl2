@@ -7,33 +7,15 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
     $firstFile = fullPathToFile($firstFile);
     $firstFileContent = file_get_contents($firstFile);
     $firstFixtures = jsonDecode($firstFileContent);
-    $firstFixtures = normilizeBoolean($firstFixtures);
+    $firstFixtures = normalizeBoolean($firstFixtures);
 
     $secondFile = fullPathToFile($secondFile);
     $secondFileContent = file_get_contents($secondFile);
     $secondFixtures = jsonDecode($secondFileContent);
-    $secondFixtures = normilizeBoolean($secondFixtures);
+    $secondFixtures = normalizeBoolean($secondFixtures);
 
-    $keys = array_unique(array_merge(array_keys($firstFixtures), array_keys($secondFixtures)));
-    asort($keys);
-    $result = array_reduce($keys, function ($acc, $key) use ($firstFixtures, $secondFixtures) {
-        if (array_key_exists($key, $firstFixtures) && array_key_exists($key, $secondFixtures)) {
-            if ($firstFixtures[$key] === $secondFixtures[$key]) {
-                $acc = "{$acc}    {$key}: {$firstFixtures[$key]}\n";
-            } else {
-                $acc = "{$acc} -  {$key}: {$firstFixtures[$key]}\n";
-                $acc = "{$acc} +  {$key}: {$secondFixtures[$key]}\n";
-            }
-        } elseif (array_key_exists($key, $firstFixtures)) {
-            $acc = "{$acc} -  {$key}: {$firstFixtures[$key]}\n";
-        } elseif (array_key_exists($key, $secondFixtures)) {
-            $acc = "{$acc} +  {$key}: {$secondFixtures[$key]}\n";
-        }
-        return $acc;
-    }, "{\n");
-    $ResultWithEnd = "{$result}}\n";
-    print_r($ResultWithEnd);
-    return $ResultWithEnd;
+    $result = diffFixtures($firstFixtures, $secondFixtures);
+    return $result;
 }
 
 function fullPathToFile(string $file): string
@@ -53,7 +35,7 @@ function jsonDecode(string $fileContent): array
     return $fixtures;
 }
 
-function normilizeBoolean(array $fixtures): array
+function normalizeBoolean(array $fixtures): array
 {
     foreach ($fixtures as $key => $item) {
         if (is_bool($item)) {
@@ -63,3 +45,24 @@ function normilizeBoolean(array $fixtures): array
     return $fixtures;
 }
 
+function diffFixtures(array $firstFixtures, array $secondFixtures): string
+{
+    $keys = array_unique(array_merge(array_keys($firstFixtures), array_keys($secondFixtures)));
+    asort($keys);
+    $result = array_reduce($keys, function ($acc, $key) use ($firstFixtures, $secondFixtures) {
+        if (array_key_exists($key, $firstFixtures) && array_key_exists($key, $secondFixtures)) {
+            if ($firstFixtures[$key] === $secondFixtures[$key]) {
+                $acc = "{$acc}    {$key}: {$firstFixtures[$key]}\n";
+            } else {
+                $acc = "{$acc} -  {$key}: {$firstFixtures[$key]}\n";
+                $acc = "{$acc} +  {$key}: {$secondFixtures[$key]}\n";
+            }
+        } elseif (array_key_exists($key, $firstFixtures)) {
+            $acc = "{$acc} -  {$key}: {$firstFixtures[$key]}\n";
+        } elseif (array_key_exists($key, $secondFixtures)) {
+            $acc = "{$acc} +  {$key}: {$secondFixtures[$key]}\n";
+        }
+        return $acc;
+    }, "{\n");
+    return "{$result}}\n";
+}
