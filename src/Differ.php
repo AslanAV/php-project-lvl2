@@ -7,20 +7,16 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
     $firstFile = fullPathToFile($firstFile);
     $firstFileContent = file_get_contents($firstFile);
     $firstFixtures = jsonDecode($firstFileContent);
+    $firstFixtures = normilizeBoolean($firstFixtures);
 
     $secondFile = fullPathToFile($secondFile);
     $secondFileContent = file_get_contents($secondFile);
     $secondFixtures = jsonDecode($secondFileContent);
+    $secondFixtures = normilizeBoolean($secondFixtures);
 
     $keys = array_unique(array_merge(array_keys($firstFixtures), array_keys($secondFixtures)));
     asort($keys);
     $result = array_reduce($keys, function ($acc, $key) use ($firstFixtures, $secondFixtures) {
-        if (array_key_exists($key, $firstFixtures) && is_bool($firstFixtures[$key])) {
-            $firstFixtures[$key] = ($firstFixtures[$key] === true) ? "true" : "false";
-        }
-        if (array_key_exists($key, $secondFixtures) && is_bool($secondFixtures[$key])) {
-            $secondFixtures[$key] = ($secondFixtures[$key] === true) ? "true" : "false";
-        }
         if (array_key_exists($key, $firstFixtures) && array_key_exists($key, $secondFixtures)) {
             if ($firstFixtures[$key] === $secondFixtures[$key]) {
                 $acc = "{$acc}    {$key}: {$firstFixtures[$key]}\n";
@@ -56,3 +52,14 @@ function jsonDecode(string $fileContent): array
     $fixtures = json_decode($fileContent, true);
     return $fixtures;
 }
+
+function normilizeBoolean(array $fixtures): array
+{
+    foreach ($fixtures as $key => $item) {
+        if (is_bool($item)) {
+            $fixtures[$key] = ($fixtures[$key] === true) ? "true" : "false";
+        }
+    }
+    return $fixtures;
+}
+
