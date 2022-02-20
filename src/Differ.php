@@ -5,20 +5,12 @@ namespace Hexlet\Code\Differ;
 function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
     $firstFile = fullPathToFile($firstFile);
-    $secondFile = fullPathToFile($secondFile);
-
     $firstFileContent = file_get_contents($firstFile);
-    if ($firstFileContent === false) {
-        throw new \Exception("Can't read file: " . $firstFile);
-    }
-    $firstFixtures = json_decode($firstFileContent, true);
+    $firstFixtures = jsonDecode($firstFileContent);
 
-
+    $secondFile = fullPathToFile($secondFile);
     $secondFileContent = file_get_contents($secondFile);
-    if ($secondFileContent === false) {
-        throw new \Exception("Can't read file: " . $secondFile);
-    }
-    $secondFixtures = json_decode($secondFileContent, true);
+    $secondFixtures = jsonDecode($secondFileContent);
 
     $keys = array_unique(array_merge(array_keys($firstFixtures), array_keys($secondFixtures)));
     asort($keys);
@@ -54,4 +46,13 @@ function fullPathToFile(string $file): string
         $firstFile = __DIR__ . '/../' . $file;
     }
     return $file;
+}
+
+function jsonDecode(string $fileContent): array
+{
+    if ($fileContent === false) {
+        throw new \Exception("Can't read file: " . $fileContent);
+    }
+    $fixtures = json_decode($fileContent, true);
+    return $fixtures;
 }
