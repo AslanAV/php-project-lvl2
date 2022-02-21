@@ -1,64 +1,31 @@
-name: PHP CI
+name: PHP CI 
 
-on: [push]
+on: 
+  - push
+  - pull_request
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup PHP
-        # Action gives to setup the PHP environment to test application
-        # https://github.com/shivammathur/setup-php
-      uses: shivammathur/setup-php@v2
-      with:
-        # Specify the PHP version
-        php-version: '7.4'
-    - name: Install
-      # Install project
-      run: make install
+      - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+      - name: Setup PHP 
+        uses: shivammathur/setup-php@v2 
+        with:
+          php-version: '7.4'
 
-    - name: Install
-      run: make install
+      - name: Install 
+        run: make install
 
-    - name: Run linter
-      run: make lint
-      
-    - name: Code Climate Coverage Action
-      uses: paambaati/codeclimate-action@v3.0.0
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.TEST_COVERAGE_ID }}
-      with:
-<<<<<<< HEAD
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: Run linter 
+        run: make lint
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
-    - name: Run test & publish code coverage
-    uses: paambaati/codeclimate-action@v2.6.0
-    env:
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      XDEBUG_MODE: coverage
-    with:
-      coverageCommand: make test
-      coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
-      debug: true
-=======
-        coverageCommand: make test-coverage
-        coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
-        debug: true
->>>>>>> 04b1b6a441678a5c524f8defdf99634920239e45
+      - name: Run test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: make test-coverage
+          coverageLocations: build/logs/clover.xml:clover
+          debug: true
