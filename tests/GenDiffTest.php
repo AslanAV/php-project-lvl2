@@ -15,6 +15,5 @@ class GenDiffTest extends TestCase
         $resultTwoJSON = gendiff($firstFile1, $secondFile2);
         $expectedTwoJSON = file_get_contents(__DIR__ . "/fixtures/expectedTwoJSON.txt");
         $this->assertEquals($expectedTwoJSON, $resultTwoJSON);
-
     }
 }
