@@ -11,7 +11,7 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
     $secondFixtures = preparationOfFile($secondFile);
 
     $result = diffFixtures($firstFixtures, $secondFixtures);
-    print_r($result);
+    //var_dump($result);
     return $result;
 }
 
