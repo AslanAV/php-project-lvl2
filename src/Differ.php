@@ -7,17 +7,24 @@ namespace Hexlet\Code\Differ;
  */
 function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
-    $firstFile = fullPathToFile($firstFile);
-    $firstFileContent = file_get_contents($firstFile);
-    $firstFixtures = jsonDecode($firstFileContent);
-    $firstFixtures = normalizeBoolean($firstFixtures);
+    $firstFixtures = preparationOfFile($firstFile);
+    $secondFixtures = preparationOfFile($secondFile);
 
-    $secondFile = fullPathToFile($secondFile);
-    $secondFileContent = file_get_contents($secondFile);
-    $secondFixtures = jsonDecode($secondFileContent);
-    $secondFixtures = normalizeBoolean($secondFixtures);
+    $result = diffFixtures($firstFixtures, $secondFixtures);
+    print_r($result);
+    return $result;
+}
 
-    return diffFixtures($firstFixtures, $secondFixtures);
+/**
+ * @param mixed $file
+ * @return mixed
+ */
+function preparationOfFile($file)
+{
+    $fileWithFullPath = fullPathToFile($file);
+    $fileContent = file_get_contents($fileWithFullPath);
+    $fixture = jsonDecode($fileContent);
+    return normalizeBoolean($fixture);
 }
 
 function fullPathToFile(string $file): string
@@ -64,7 +71,6 @@ function diffFixtures($firstFixtures, $secondFixtures): string
 {
     $keys = array_unique(array_merge(array_keys($firstFixtures), array_keys($secondFixtures)));
     asort($keys);
-    print_r($firstFixtures);
     $result = array_reduce($keys, function ($acc, $key) use ($firstFixtures, $secondFixtures) {
         if (array_key_exists($key, $firstFixtures) && array_key_exists($key, $secondFixtures)) {
             if ($firstFixtures[$key] === $secondFixtures[$key]) {
