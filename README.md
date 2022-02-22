@@ -4,6 +4,34 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/dd2d343814360801a8f6/maintainability)](https://codeclimate.com/github/AslanAV/php-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/dd2d343814360801a8f6/test_coverage)](https://codeclimate.com/github/AslanAV/php-project-lvl2/test_coverage)
 
+## Setup
+```sh
+$ git clone https://github.com/hexlet-boilerplates/php-package.git
 
-use gendiff
+$ make install
+```
+
+## Run tests & linter
+```sh
+$ make test
+
+$ make lint
+
+$ make lint-fix
+```
+
+## Test Coverage
+```sh
+$ make test-coverage
+```
+
+### Help
+```shell
+$ ./bin/gendiff -h
+```
+
+### Use gendiff for two json files
+```shell
+$ ./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
+```
 [![asciicast](https://asciinema.org/a/NneWoJZQtvCTFEZJHokQa7sHX.svg)](https://asciinema.org/a/NneWoJZQtvCTFEZJHokQa7sHX)
