@@ -35,3 +35,10 @@ $ ./bin/gendiff -h
 $ ./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
 ```
 [![asciicast](https://asciinema.org/a/NneWoJZQtvCTFEZJHokQa7sHX.svg)](https://asciinema.org/a/NneWoJZQtvCTFEZJHokQa7sHX)
+
+
+### Use gendiff for two yml files
+```shell
+$ ./bin/gendiff tests/fixtures/filepath1.yml tests/fixtures/filepath2.yml
+```
+[![asciicast](https://asciinema.org/a/tawspNzEHTf8TFa9fMRUjm170.svg)](https://asciinema.org/a/tawspNzEHTf8TFa9fMRUjm170)

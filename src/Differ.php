@@ -5,6 +5,8 @@ namespace Hexlet\Code\Differ;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
+use function Hexlet\Code\Parsers\Parsers\parse;
+
 /**
  * @throws Exception
  */
@@ -12,9 +14,8 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
 {
     $firstFixtures = preparationOfFile($firstFile);
     $secondFixtures = preparationOfFile($secondFile);
-
     $result = diffFixtures($firstFixtures, $secondFixtures);
-    //var_dump($result);
+    print_r($result);
     return $result;
 }
 
@@ -26,18 +27,10 @@ function preparationOfFile($file)
 {
     $fileWithFullPath = fullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);
-    $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
-    switch ($fileType) {
-        case "yml":
-        case "yaml":
-            $fixture = yamlDecode($fileContent);
-            break;
-        case "json":
-            $fixture = jsonDecode($fileContent);
-            break;
-        default:
-            throw new Exception('Unknown type of file ' . $fileType);
+    if ($fileContent == false) {
+        throw new Exception("Can't read file");
     }
+    $fixture = parse($fileWithFullPath, $fileContent);
     return normalizeBoolean($fixture);
 }
 
@@ -50,34 +43,26 @@ function fullPathToFile(string $file): string
 }
 
 /**
- * @param mixed $fileContent
- * @return mixed
- * @throws Exception
+ * @param string $fileContent
+ * @return array<mixed>
  */
 function yamlDecode($fileContent)
 {
-    if ($fileContent == false) {
-        throw new Exception("Can't read file");
-    }
     return Yaml::parse($fileContent);
 }
 
 /**
- * @param mixed $fileContent
- * @return mixed
- * @throws Exception
+ * @param string $fileContent
+ * @return array<mixed>
  */
 function jsonDecode($fileContent)
 {
-    if ($fileContent == false) {
-        throw new Exception("Can't read file");
-    }
     return json_decode($fileContent, true);
 }
 
 /**
- * @param mixed $fixtures
- * @return mixed
+ * @param array<mixed> $fixtures
+ * @return array<mixed>
  */
 function normalizeBoolean($fixtures)
 {
@@ -90,8 +75,8 @@ function normalizeBoolean($fixtures)
 }
 
 /**
- * @param mixed $firstFixtures
- * @param mixed $secondFixtures
+ * @param array<mixed> $firstFixtures
+ * @param array<mixed> $secondFixtures
  * @return string
  */
 function diffFixtures($firstFixtures, $secondFixtures): string
