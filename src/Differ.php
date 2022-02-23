@@ -2,8 +2,11 @@
 
 namespace Hexlet\Code\Differ;
 
+use Exception;
+use Symfony\Component\Yaml\Yaml;
+
 /**
- * @throws \Exception
+ * @throws Exception
  */
 function gendiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
@@ -22,8 +25,22 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
 function preparationOfFile($file)
 {
     $fileWithFullPath = fullPathToFile($file);
+    print_r([$fileWithFullPath]);
     $fileContent = file_get_contents($fileWithFullPath);
-    $fixture = jsonDecode($fileContent);
+    print_r([$fileContent]);
+    $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
+    print_r([$fileType]);
+    switch ($fileType) {
+        case "yml":
+        case "yaml":
+            $fixture = yamlDecode($fileContent);
+            break;
+        case "json":
+            $fixture = jsonDecode($fileContent);
+            break;
+        default:
+            throw new Exception('Unknown type of file ' . $fileType);
+    }
     return normalizeBoolean($fixture);
 }
 
@@ -35,15 +52,23 @@ function fullPathToFile(string $file): string
     return $file;
 }
 
+function yamlDecode ($fileContent)
+{
+    if ($fileContent == false) {
+        throw new Exception("Can't read file");
+    }
+    return Yaml::parse($fileContent);
+}
+
 /**
  * @param mixed $fileContent
  * @return mixed
- * @throws \Exception
+ * @throws Exception
  */
 function jsonDecode($fileContent)
 {
     if ($fileContent == false) {
-        throw new \Exception("Can't read file");
+        throw new Exception("Can't read file");
     }
     return json_decode($fileContent, true);
 }
