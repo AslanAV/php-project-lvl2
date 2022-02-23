@@ -25,11 +25,8 @@ function gendiff(string $firstFile, string $secondFile, string $format = 'stylis
 function preparationOfFile($file)
 {
     $fileWithFullPath = fullPathToFile($file);
-    print_r([$fileWithFullPath]);
     $fileContent = file_get_contents($fileWithFullPath);
-    print_r([$fileContent]);
     $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
-    print_r([$fileType]);
     switch ($fileType) {
         case "yml":
         case "yaml":
@@ -52,7 +49,12 @@ function fullPathToFile(string $file): string
     return $file;
 }
 
-function yamlDecode ($fileContent)
+/**
+ * @param mixed $fileContent
+ * @return mixed
+ * @throws Exception
+ */
+function yamlDecode($fileContent)
 {
     if ($fileContent == false) {
         throw new Exception("Can't read file");
