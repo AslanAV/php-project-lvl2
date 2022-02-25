@@ -1,11 +1,29 @@
 <?php
 
+/**
+ * Parses and verifies the doc comments for files.
+ *
+ * PHP version 5
+ *
+ * @category  Parser
+ * @package   Cli_Parser
+ * @author    Aslan Autlev <autlevaslan@gmail.com>
+ * @copyright 2021-2022 Home
+ * @license   github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD
+ * @link      http://pear.php.net/package/PHP_CodeSniffer
+ */
+
 namespace Hexlet\Code\Cli;
 
 use Docopt;
 
 use function Hexlet\Code\Differ\gendiff;
 
+/**
+ * Function genHelp()  echo help for gendiff
+ *
+ * @return string
+ */
 function genHelp(): string
 {
     $doc = <<<DOC
@@ -28,5 +46,5 @@ function genHelp(): string
     $secondFile = $args['<secondFile>'];
     $format = $args['--format'];
 
-    return gendiff($firstFile, $secondFile, $format);
+    return genDiff($firstFile, $secondFile, $format);
 }

@@ -25,4 +25,13 @@ class GenDiffTest extends TestCase
         $expectedTwoYML = file_get_contents(__DIR__ . "/fixtures/expectedTwoYML.txt");
         $this->assertEquals($expectedTwoYML, $resultTwoYML);
     }
+
+    public function testDiffTwoJSONRecursive(): void
+    {
+        $firstFile1 = "/tests/fixtures/filepath1.json";
+        $secondFile2 = "/tests/fixtures/filepath2.json";
+        $resultTwoJSON = gendiff($firstFile1, $secondFile2);
+        $expectedTwoJSON = file_get_contents(__DIR__ . "/fixtures/expectedTwoJSONRecursive.txt");
+        $this->assertEquals($expectedTwoJSON, $resultTwoJSON);
+    }
 }
