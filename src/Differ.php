@@ -6,7 +6,7 @@ use Exception;
 
 use function Hexlet\Code\Parsers\Parsers\parse;
 use function Hexlet\Code\BuildAst\buildAst;
-use function Hexlet\Code\Formaters\Stylish\formatedToStylish;
+use function Hexlet\Code\Formaters\formatToString;
 
 /**
  * @param string $firstFile
@@ -18,11 +18,8 @@ function genDiff(string $firstFile, string $secondFile, string $format = 'stylis
 {
     $firstFixtures = preparationOfFile($firstFile);
     $secondFixtures = preparationOfFile($secondFile);
-    //var_dump($firstFixtures);
-    //var_dump($secondFixtures);
     $ast = buildAst($firstFixtures, $secondFixtures);
-    $result = formatedToStylish($ast);
-    //print_r($result);
+    $result = formatToString($ast, $format);
     return $result;
 }
 
@@ -38,7 +35,7 @@ function preparationOfFile($file)
         throw new Exception("Can't read file");
     }
     $fixture = parse($fileWithFullPath, $fileContent);
-    return normalizeBoolean($fixture);
+    return normalizeBooleanAndNull($fixture);
 }
 
 /**
@@ -57,11 +54,11 @@ function fullPathToFile(string $file): string
  * @param array<mixed> $fixtures
  * @return array<mixed>
  */
-function normalizeBoolean(array $fixtures): array
+function normalizeBooleanAndNull(array $fixtures): array
 {
     foreach ($fixtures as $key => $item) {
         if (is_array($fixtures[$key])) {
-            $fixtures[$key] = normalizeBoolean($item);
+            $fixtures[$key] = normalizeBooleanAndNull($item);
         }
         if (is_null($item)) {
             $fixtures[$key] = "null";

@@ -4,6 +4,12 @@ namespace Hexlet\Code\Formaters\Stylish;
 
 use Exception;
 
+use function Hexlet\Code\BuildAst\type;
+use function Hexlet\Code\BuildAst\key;
+use function Hexlet\Code\BuildAst\value;
+use function Hexlet\Code\BuildAst\children;
+use function Hexlet\Code\BuildAst\secondValue;
+
 const ADDED = "+";
 const DELETED = "-";
 const SPACE = " ";
@@ -32,23 +38,24 @@ function buildBody($ast, $factor)
 {
     //print_r($ast);
     $result = array_reduce($ast, function ($acc, $node) use ($factor) {
+        $value = (is_array(value($node))) ? formatedToStylish(children($node), $factor + 1) : value($node);
         switch (type($node)) {
             case "hasChildren":
-                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
+                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . $value;
                 break;
             case "added":
-                $acc[] = addedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
+                $acc[] = addedIndent($factor) . key($node) . keyToValue() . $value;
                 break;
             case "deleted":
-                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
+                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . $value;
                 break;
             case "changed":
 //                var_dump(value($node, $factor));
-                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
+                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . $value;
                 $acc[] = addedIndent($factor) . key($node) . keyToValue() . secondValue($node);
                 break;
             case "unchanged":
-                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
+                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . $value;
                 break;
             default:
                 throw new Exception("Not support key" . type($node));
@@ -99,50 +106,4 @@ function indent()
 function keyToValue()
 {
     return ":" . SPACE;
-}
-
-/**
- * @param array<mixed> $node
- * @return string
- */
-function type($node)
-{
-    return $node['type'];
-}
-
-/**
- * @param array<mixed> $node
- * @return string
- */
-function key($node)
-{
-    return $node['key'];
-}
-
-/**
- * @param array<mixed> $node
- * @param int $factor
- * @return string
- */
-function value(array $node, int $factor): string
-{
-    return (is_array($node['value'])) ? formatedToStylish(children($node), $factor + 1) : $node['value'];
-}
-
-/**
- * @param array<mixed> $node
- * @return string
- */
-function secondValue($node)
-{
-    return $node['secondValue'];
-}
-
-/**
- * @param array<mixed> $node
- * @return array<mixed>
- */
-function children($node)
-{
-    return $node['value'];
 }

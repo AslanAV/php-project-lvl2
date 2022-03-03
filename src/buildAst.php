@@ -2,8 +2,6 @@
 
 namespace Hexlet\Code\BuildAst;
 
-use function Hexlet\Code\Formaters\Stylish\type;
-
 /**
  * @param array<mixed> $firstFixtures
  * @param array<mixed> $secondFixtures
@@ -15,7 +13,6 @@ function buildAst(array $firstFixtures, array $secondFixtures): array
     $keys = array_unique($keys);
     asort($keys);
     $result = array_map(fn($key) => mappedAst($key, $firstFixtures, $secondFixtures), $keys);
-    //print_r($result);
     return $result;
 }
 
@@ -42,8 +39,6 @@ function astNode($type, $key, $value, $secondValue = null): array
  */
 function mappedAst($key, $firstFixtures, $secondFixtures)
 {
-    //var_dump($firstFixtures);
-    //print_r($secondFixtures);
     $firstContent = $firstFixtures[$key] ?? null;
     $secondContent = $secondFixtures[$key] ?? null;
     if (is_array($firstContent) && is_array($secondContent)) {
@@ -78,4 +73,49 @@ function normalizedContent($content)
         $result[] = ['type' => 'unchanged', 'key' => $key, 'value' => $value];
     }
     return $result;
+}
+
+/**
+ * @param array<mixed> $node
+ * @return string
+ */
+function type($node)
+{
+    return $node['type'];
+}
+
+/**
+ * @param array<mixed> $node
+ * @return string
+ */
+function key($node)
+{
+    return $node['key'];
+}
+
+/**
+ * @param array<mixed> $node
+ * @return mixed
+ */
+function value($node)
+{
+    return $node['value'];
+}
+
+/**
+ * @param array<mixed> $node
+ * @return string
+ */
+function secondValue($node)
+{
+    return $node['secondValue'];
+}
+
+/**
+ * @param array<mixed> $node
+ * @return array<mixed>
+ */
+function children($node)
+{
+    return $node['value'];
 }
