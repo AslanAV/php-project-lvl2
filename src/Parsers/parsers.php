@@ -3,9 +3,7 @@
 namespace Hexlet\Code\Parsers\Parsers;
 
 use Exception;
-
-use function Hexlet\Code\Differ\jsonDecode;
-use function Hexlet\Code\Differ\yamlDecode;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * @param string $fileWithFullPath
@@ -27,4 +25,22 @@ function parse(string $fileWithFullPath, string $fileContent): array
             throw new Exception('Unknown type of file ' . $fileType);
     }
     return $fixture;
+}
+
+/**
+ * @param string $fileContent
+ * @return array<mixed>
+ */
+function yamlDecode(string $fileContent): array
+{
+    return Yaml::parse($fileContent);
+}
+
+/**
+ * @param string $fileContent
+ * @return array<mixed>
+ */
+function jsonDecode(string $fileContent): array
+{
+    return json_decode($fileContent, true);
 }
