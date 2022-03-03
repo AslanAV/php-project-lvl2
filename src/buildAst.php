@@ -61,11 +61,16 @@ function mappedAst($key, $firstFixtures, $secondFixtures)
     return astNode('unchanged', $key, $firstContent);
 }
 
+/**
+ * @param array<mixed> $content
+ * @return mixed
+ */
 function normalizedContent($content)
 {
     if (!is_array($content)) {
         return $content;
     }
+    $result = [];
     foreach ($content as $key => $value) {
         if (is_array($value)) {
             $value = normalizedContent($value);

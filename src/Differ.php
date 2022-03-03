@@ -12,9 +12,9 @@ use function Hexlet\Code\Formaters\Stylish\formatedToStylish;
  * @param string $firstFile
  * @param string $secondFile
  * @param string $format
- * @return
+ * @return string
  */
-function genDiff(string $firstFile, string $secondFile, string $format = 'stylish')
+function genDiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
     $firstFixtures = preparationOfFile($firstFile);
     $secondFixtures = preparationOfFile($secondFile);

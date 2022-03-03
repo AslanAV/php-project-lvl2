@@ -7,7 +7,7 @@ use Docopt;
 use function Hexlet\Code\Differ\gendiff;
 
 /**
- * @return
+ * @return string
  */
 function genHelp()
 {
