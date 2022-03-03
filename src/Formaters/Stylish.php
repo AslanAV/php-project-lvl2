@@ -23,31 +23,30 @@ function buildBody($ast, $factor)
 {
     //print_r($ast);
     $result = array_reduce($ast, function($acc, $node) use ($factor) {
-        $value = (is_array(value($node))) ? formatedToStylish(children($node), $factor + 1) : value($node);
         switch (type($node)) {
             case "hasChildren":
-                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . $value;
+                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
                 break;
             case "added":
-                $acc[] = addedIndent($factor) . key($node) . keyToValue() . $value;
+                $acc[] = addedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
                 break;
             case "deleted":
-                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . $value;
+                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
                 break;
             case "changed":
-                var_dump($value);
-                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . $value;
+//                var_dump(value($node, $factor));
+                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
                 $acc[] = addedIndent($factor) . key($node) . keyToValue() . secondValue($node);
                 break;
             case "unchanged":
-                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . $value;
+                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . value($node, $factor);
                 break;
             default:
                 throw new Exception("Not support key" . type($node));
         }
         return $acc;
     }, []);
-    return implode($result, "\n") . "\n";
+    return implode("\n" ,$result) . "\n";
 }
 
 function addedIndent($factor)
@@ -84,9 +83,9 @@ function key($node)
 {
     return $node['key'];
 }
-function value($node)
+function value($node, $factor)
 {
-    return $node['value'];
+    return (is_array($node['value'])) ? formatedToStylish(children($node), $factor + 1) : $node['value'];
 }
 function secondValue($node)
 {
