@@ -42,3 +42,14 @@ $ ./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
 $ ./bin/gendiff tests/fixtures/filepath1.yml tests/fixtures/filepath2.yml
 ```
 [![asciicast](https://asciinema.org/a/tawspNzEHTf8TFa9fMRUjm170.svg)](https://asciinema.org/a/tawspNzEHTf8TFa9fMRUjm170)
+
+
+### Use gendiff for two recursive yaml and json files
+```shell
+./bin/gendiff tests/fixtures/filepath1.json tests/fixtures/filepath2.json
+```
+```shell
+./bin/gendiff tests/fixtures/fileRecursive1.yaml tests/fixtures/fileRecursive2.yaml
+
+```
+[![asciicast](https://asciinema.org/a/J70nBBzByMpHP5rC83s3UKmKf.svg)](https://asciinema.org/a/J70nBBzByMpHP5rC83s3UKmKf)
