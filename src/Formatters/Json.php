@@ -1,8 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Formatters\Json;
-
-use Exception;
+namespace Differ\Formatters\Json;
 
 /**
  * @param array<mixed> $ast

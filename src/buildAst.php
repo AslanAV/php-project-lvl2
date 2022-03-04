@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\BuildAst;
+namespace Differ\BuildAst;
 
 use function Functional\sort;
 

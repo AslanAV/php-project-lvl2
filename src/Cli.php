@@ -1,10 +1,10 @@
 <?php
 
-namespace Hexlet\Code\Cli;
+namespace Differ\Cli;
 
 use Docopt;
 
-use function Hexlet\Code\Differ\gendiff;
+use function Differ\Differ\gendiff;
 
 /**
  * @return string

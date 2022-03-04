@@ -1,10 +1,10 @@
 <?php
 
-namespace Hexlet\Code\Formatters;
+namespace Differ\Formatters;
 
-use function Hexlet\Code\Formatters\Plain\formatedToPlain;
-use function Hexlet\Code\Formatters\Stylish\formatedToStylish;
-use function Hexlet\Code\Formatters\Json\formatedToJson;
+use function Differ\Formatters\Plain\formatedToPlain;
+use function Differ\Formatters\Stylish\formatedToStylish;
+use function Differ\Formatters\Json\formatedToJson;
 
 /**
  * @param array<mixed> $ast

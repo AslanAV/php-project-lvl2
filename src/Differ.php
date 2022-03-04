@@ -1,12 +1,12 @@
 <?php
 
-namespace Hexlet\Code\Differ;
+namespace Differ\Differ;
 
 use Exception;
 
-use function Hexlet\Code\Parsers\Parsers\parse;
-use function Hexlet\Code\BuildAst\buildAst;
-use function Hexlet\Code\Formatters\formatToString;
+use function Differ\Parsers\Parsers\parse;
+use function Differ\BuildAst\buildAst;
+use function Differ\Formatters\formatToString;
 
 /**
  * @param string $firstFile

@@ -1,14 +1,14 @@
 <?php
 
-namespace Hexlet\Code\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
 use Exception;
 
-use function Hexlet\Code\BuildAst\type;
-use function Hexlet\Code\BuildAst\key;
-use function Hexlet\Code\BuildAst\value;
-use function Hexlet\Code\BuildAst\children;
-use function Hexlet\Code\BuildAst\secondValue;
+use function Differ\BuildAst\type;
+use function Differ\BuildAst\key;
+use function Differ\BuildAst\value;
+use function Differ\BuildAst\children;
+use function Differ\BuildAst\secondValue;
 
 const STARTSTRING = "Property ";
 
