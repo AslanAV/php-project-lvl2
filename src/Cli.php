@@ -9,7 +9,7 @@ use function Hexlet\Code\Differ\gendiff;
 /**
  * @return string
  */
-function genHelp(): string
+function start()
 {
     $doc = <<<DOC
     Generate diff

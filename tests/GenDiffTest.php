@@ -8,15 +8,27 @@ use function Hexlet\Code\Differ\gendiff;
 
 class GenDiffTest extends TestCase
 {
-    /** @dataProvider diffTwoFileProvider */
-    public function testGendiffTwofile($file1, $file2, $format, $expected): void
+    /**
+     * @dataProvider diffTwoFileProvider
+     *
+     * @param string $file1
+     * @param string $file2
+     * @param string $format
+     * @param string $expected
+     * @return void
+     */
+    public function testGendiffTwofile($file1, $file2, $format, $expected)
     {
         $result = gendiff($file1, $file2, $format);
         $expected = file_get_contents(__DIR__ . $expected);
         $this->assertEquals($expected, $result);
     }
 
-    public function diffTwoFileProvider() {
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public function diffTwoFileProvider()
+    {
         return [
             [
                 "/tests/fixtures/filepath1.json",
@@ -41,6 +53,18 @@ class GenDiffTest extends TestCase
                 "/tests/fixtures/fileRecursive2.yaml",
                 "plain",
                 "/fixtures/expectedTwoFileFormatPlain.txt"
+            ],
+            [
+                "/tests/fixtures/filepath1.json",
+                "/tests/fixtures/filepath2.json",
+                "json",
+                "/fixtures/expectedTwoFileFormatJson.txt"
+            ],
+            [
+                "/tests/fixtures/fileRecursive1.yaml",
+                "/tests/fixtures/fileRecursive2.yaml",
+                "json",
+                "/fixtures/expectedTwoFileFormatJson.txt"
             ]
         ];
     }

@@ -42,32 +42,25 @@ function formatedToStylish($ast, $factor = 0)
  */
 function buildBody($ast, $factor)
 {
-    //print_r($ast);
-    $result = array_reduce($ast, function ($acc, $node) use ($factor) {
+    $result = array_map(function ($node) use ($factor) {
         $value = (is_array(value($node))) ? formatedToStylish(children($node), $factor + 1) : value($node);
         switch (type($node)) {
             case "hasChildren":
-                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . $value;
-                break;
+                return unchangedIndent($factor) . key($node) . keyToValue() . $value;
             case "added":
-                $acc[] = addedIndent($factor) . key($node) . keyToValue() . $value;
-                break;
+                return addedIndent($factor) . key($node) . keyToValue() . $value;
             case "deleted":
-                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . $value;
-                break;
+                return deletedIndent($factor) . key($node) . keyToValue() . $value;
             case "changed":
-//                var_dump(value($node, $factor));
-                $acc[] = deletedIndent($factor) . key($node) . keyToValue() . $value;
-                $acc[] = addedIndent($factor) . key($node) . keyToValue() . secondValue($node);
-                break;
+                $firstContent = deletedIndent($factor) . key($node) . keyToValue() . $value;
+                $secondContent = addedIndent($factor) . key($node) . keyToValue() . secondValue($node);
+                return $firstContent . "\n" . $secondContent;
             case "unchanged":
-                $acc[] = unchangedIndent($factor) . key($node) . keyToValue() . $value;
-                break;
+                return unchangedIndent($factor) . key($node) . keyToValue() . $value;
             default:
                 throw new Exception("Not support key" . type($node));
         }
-        return $acc;
-    }, []);
+    }, $ast);
     return implode("\n", $result) . "\n";
 }
 

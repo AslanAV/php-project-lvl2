@@ -32,31 +32,27 @@ function formatedToPlain($ast, $parent = '')
  */
 function buildBody($ast, $parent)
 {
-    $result = array_reduce($ast, function ($acc, $node) use ($parent) {
+    $result = array_map(function ($node) use ($parent) {
         $key = ($parent !== '') ? $parent . "." . key($node) :  $parent . key($node);
         switch (type($node)) {
             case "hasChildren":
                 $newParent = ($parent !== '') ? $parent . "." . key($node) :  $parent . key($node);
-                $acc[] = formatedToPlain(children($node), $newParent);
-                break;
+                return formatedToPlain(children($node), $newParent);
             case "added":
-                $acc[] = STARTSTRING . keyWithBrace($key) . addedPhrase() . plainValue($node);
-                break;
+                return STARTSTRING . keyWithBrace($key) . addedPhrase() . plainValue($node);
             case "deleted":
-                $acc[] = STARTSTRING . keyWithBrace($key) . deletedPhrase();
-                break;
+                return STARTSTRING . keyWithBrace($key) . deletedPhrase();
             case "changed":
                 $value = plainValue($node) . " to " . plainSecondValue($node);
-                $acc[] = STARTSTRING . keyWithBrace($key) . changedPhrase() . $value;
-                break;
+                return STARTSTRING . keyWithBrace($key) . changedPhrase() . $value;
             case "unchanged":
                 break;
             default:
                 throw new Exception("Not support key" . type($node));
         }
-        return $acc;
-    }, []);
-    return implode("\n", $result);
+    }, $ast);
+    $filteredResult = array_filter($result);
+    return implode("\n", $filteredResult);
 }
 
 /**

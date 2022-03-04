@@ -1,6 +1,6 @@
 <?php
 
- namespace Hexlet\Code\Differ;
+namespace Hexlet\Code\Differ;
 
 use Exception;
 
@@ -14,13 +14,12 @@ use function Hexlet\Code\Formatters\formatToString;
  * @param string $format
  * @return string
  */
-function genDiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
+function genDiff($firstFile, $secondFile, $format = 'stylish')
 {
     $firstFixtures = preparationOfFile($firstFile);
     $secondFixtures = preparationOfFile($secondFile);
     $ast = buildAst($firstFixtures, $secondFixtures);
-    $result = formatToString($ast, $format);
-    return $result;
+    return formatToString($ast, $format);
 }
 
 /**
@@ -42,7 +41,7 @@ function preparationOfFile($file)
  * @param string $file
  * @return string
  */
-function fullPathToFile(string $file): string
+function fullPathToFile($file)
 {
     if (substr($file, 1) !== '/') {
         $file = __DIR__ . '/../' . $file;
@@ -54,7 +53,7 @@ function fullPathToFile(string $file): string
  * @param array<mixed> $fixtures
  * @return array<mixed>
  */
-function normalizeBooleanAndNull(array $fixtures): array
+function normalizeBooleanAndNull($fixtures)
 {
     foreach ($fixtures as $key => $item) {
         if (is_array($item)) {

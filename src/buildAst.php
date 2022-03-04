@@ -2,18 +2,19 @@
 
 namespace Hexlet\Code\BuildAst;
 
+use function Functional\sort;
+
 /**
  * @param array<mixed> $firstFixtures
  * @param array<mixed> $secondFixtures
  * @return array<mixed>
  */
-function buildAst(array $firstFixtures, array $secondFixtures): array
+function buildAst($firstFixtures, $secondFixtures)
 {
     $keys = array_merge(array_keys($firstFixtures), array_keys($secondFixtures));
     $keys = array_unique($keys);
-    asort($keys);
-    $result = array_map(fn($key) => mappedAst($key, $firstFixtures, $secondFixtures), $keys);
-    return $result;
+    $sortedKeys = sort($keys, fn ($a, $b) => strcmp($a, $b), false);
+    return array_map(fn($key) => mappedAst($key, $firstFixtures, $secondFixtures), $sortedKeys);
 }
 
 /**
@@ -23,7 +24,7 @@ function buildAst(array $firstFixtures, array $secondFixtures): array
  * @param mixed $secondValue
  * @return array<mixed>
  */
-function astNode($type, $key, $value, $secondValue = null): array
+function astNode($type, $key, $value, $secondValue = null)
 {
     return ['type' => $type,
         'key' => $key,
