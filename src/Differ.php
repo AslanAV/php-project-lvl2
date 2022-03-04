@@ -43,10 +43,11 @@ function preparationOfFile($file)
  */
 function fullPathToFile($file)
 {
-    if (substr($file, 1) !== '/') {
-        $file = __DIR__ . '/../' . $file;
+    if (strpos($file, '/') === 0) {
+        return $file;
     }
-    return $file;
+
+    return __DIR__ . '/../' . $file;
 }
 
 /**

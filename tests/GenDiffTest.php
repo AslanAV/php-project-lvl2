@@ -31,38 +31,38 @@ class GenDiffTest extends TestCase
     {
         return [
             [
-                "/tests/fixtures/filepath1.json",
-                "/tests/fixtures/filepath2.json",
+                "tests/fixtures/filepath1.json",
+                "tests/fixtures/filepath2.json",
                 "stylish",
                 "/fixtures/expectedTwoFileFormatStylish.txt"
             ],
             [
-                "/tests/fixtures/fileRecursive1.yaml",
-                "/tests/fixtures/fileRecursive2.yaml",
+                "tests/fixtures/fileRecursive1.yaml",
+                "tests/fixtures/fileRecursive2.yaml",
                 "stylish",
                 "/fixtures/expectedTwoFileFormatStylish.txt"
             ],
             [
-                "/tests/fixtures/filepath1.json",
-                "/tests/fixtures/filepath2.json",
+                "tests/fixtures/filepath1.json",
+                "tests/fixtures/filepath2.json",
                 "plain",
                 "/fixtures/expectedTwoFileFormatPlain.txt"
             ],
             [
-                "/tests/fixtures/fileRecursive1.yaml",
-                "/tests/fixtures/fileRecursive2.yaml",
+                "tests/fixtures/fileRecursive1.yaml",
+                "tests/fixtures/fileRecursive2.yaml",
                 "plain",
                 "/fixtures/expectedTwoFileFormatPlain.txt"
             ],
             [
-                "/tests/fixtures/filepath1.json",
-                "/tests/fixtures/filepath2.json",
+                "tests/fixtures/filepath1.json",
+                "tests/fixtures/filepath2.json",
                 "json",
                 "/fixtures/expectedTwoFileFormatJson.txt"
             ],
             [
-                "/tests/fixtures/fileRecursive1.yaml",
-                "/tests/fixtures/fileRecursive2.yaml",
+                "tests/fixtures/fileRecursive1.yaml",
+                "tests/fixtures/fileRecursive2.yaml",
                 "json",
                 "/fixtures/expectedTwoFileFormatJson.txt"
             ]
