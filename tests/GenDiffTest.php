@@ -8,48 +8,40 @@ use function Hexlet\Code\Differ\gendiff;
 
 class GenDiffTest extends TestCase
 {
-//    public function testDiffTwoJSON(): void
-//    {
-//        $firstFile1 = "/tests/fixtures/file1.json";
-//        $secondFile2 = "/tests/fixtures/file2.json";
-//        $resultTwoJSON = gendiff($firstFile1, $secondFile2);
-//        $expectedTwoJSON = file_get_contents(__DIR__ . "/fixtures/expectedTwoJSON.txt");
-//        $this->assertEquals($expectedTwoJSON, $resultTwoJSON);
-//    }
-//
-//    public function testDiffTwoYAML(): void
-//    {
-//        $firstFile1 = "/tests/fixtures/filepath1.yml";
-//        $secondFile2 = "/tests/fixtures/filepath2.yml";
-//        $resultTwoYML = gendiff($firstFile1, $secondFile2);
-//        $expectedTwoYML = file_get_contents(__DIR__ . "/fixtures/expectedTwoYML.txt");
-//        $this->assertEquals($expectedTwoYML, $resultTwoYML);
-//    }
-//
-//    public function testDiffTwoJSONRecursive(): void
-//    {
-//        $firstFile1 = "/tests/fixtures/filepath1.json";
-//        $secondFile2 = "/tests/fixtures/filepath2.json";
-//        $resultTwoJSON = gendiff($firstFile1, $secondFile2);
-//        $expectedTwoJSON = file_get_contents(__DIR__ . "/fixtures/expectedTwoJSONRecursive.txt");
-//        $this->assertEquals($expectedTwoJSON, $resultTwoJSON);
-//    }
-//
-//    public function testDiffTwoYAMLRecursive(): void
-//    {
-//        $firstFile1 = "/tests/fixtures/fileRecursive1.yaml";
-//        $secondFile2 = "/tests/fixtures/fileRecursive2.yaml";
-//        $resultTwoJSON = gendiff($firstFile1, $secondFile2);
-//        $expectedTwoJSON = file_get_contents(__DIR__ . "/fixtures/expectedTwoYAMLRecursive.txt");
-//        $this->assertEquals($expectedTwoJSON, $resultTwoJSON);
-//    }
-
-    public function testDiffTwoJSONRecursivePlain(): void
+    /** @dataProvider diffTwoFileProvider */
+    public function testGendiffTwofile($file1, $file2, $format, $expected): void
     {
-        $firstFile1 = "/tests/fixtures/filepath1.json";
-        $secondFile2 = "/tests/fixtures/filepath2.json";
-        $resultTwoJSON = gendiff($firstFile1, $secondFile2, 'plain');
-        $expectedTwoJSON = file_get_contents(__DIR__ . "/fixtures/expectedTwoJSONRecursivePlain.txt");
-        $this->assertEquals($expectedTwoJSON, $resultTwoJSON);
+        $result = gendiff($file1, $file2, $format);
+        $expected = file_get_contents(__DIR__ . $expected);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function diffTwoFileProvider() {
+        return [
+            [
+                "/tests/fixtures/filepath1.json",
+                "/tests/fixtures/filepath2.json",
+                "stylish",
+                "/fixtures/expectedTwoFileFormatStylish.txt"
+            ],
+            [
+                "/tests/fixtures/fileRecursive1.yaml",
+                "/tests/fixtures/fileRecursive2.yaml",
+                "stylish",
+                "/fixtures/expectedTwoFileFormatStylish.txt"
+            ],
+            [
+                "/tests/fixtures/filepath1.json",
+                "/tests/fixtures/filepath2.json",
+                "plain",
+                "/fixtures/expectedTwoFileFormatPlain.txt"
+            ],
+            [
+                "/tests/fixtures/fileRecursive1.yaml",
+                "/tests/fixtures/fileRecursive2.yaml",
+                "plain",
+                "/fixtures/expectedTwoFileFormatPlain.txt"
+            ]
+        ];
     }
 }
