@@ -6,7 +6,7 @@ use Exception;
 
 use function Hexlet\Code\Parsers\Parsers\parse;
 use function Hexlet\Code\BuildAst\buildAst;
-use function Hexlet\Code\Formaters\formatToString;
+use function Hexlet\Code\Formatters\formatToString;
 
 /**
  * @param string $firstFile
@@ -57,7 +57,7 @@ function fullPathToFile(string $file): string
 function normalizeBooleanAndNull(array $fixtures): array
 {
     foreach ($fixtures as $key => $item) {
-        if (is_array($fixtures[$key])) {
+        if (is_array($item)) {
             $fixtures[$key] = normalizeBooleanAndNull($item);
         }
         if (is_null($item)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Formaters\Stylish;
+namespace Hexlet\Code\Formatters\Stylish;
 
 use Exception;
 

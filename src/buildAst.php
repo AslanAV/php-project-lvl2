@@ -104,7 +104,7 @@ function value($node)
 
 /**
  * @param array<mixed> $node
- * @return string
+ * @return mixed
  */
 function secondValue($node)
 {
@@ -118,4 +118,16 @@ function secondValue($node)
 function children($node)
 {
     return $node['value'];
+}
+
+/**
+ * @param array<mixed> $node
+ * @return bool
+ */
+function hasChildren($node)
+{
+    if (array_key_exists('children', $node)) {
+        return true;
+    }
+    return false;
 }

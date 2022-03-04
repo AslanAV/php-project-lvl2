@@ -8,8 +8,9 @@
             "src/Differ.php",
             "src/Parsers/parsers.php",
             "src/buildAst.php",
-            "src/Formaters/Stylish.php",
-            "src/Formaters.php"
+            "src/Formatters/Stylish.php",
+            "src/Formatters/Plain.php",
+            "src/Formatters.php"
         ],
         "psr-4": {
             "Hexlet\\Code\\": "src/"

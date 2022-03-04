@@ -1,8 +1,9 @@
 <?php
 
-namespace Hexlet\Code\Formaters;
+namespace Hexlet\Code\Formatters;
 
-use function Hexlet\Code\Formaters\Stylish\formatedToStylish;
+use function Hexlet\Code\Formatters\Plain\formatedToPlain;
+use function Hexlet\Code\Formatters\Stylish\formatedToStylish;
 
 /**
  * @param array<mixed> $ast
@@ -14,8 +15,8 @@ function formatToString($ast, $format)
     switch ($format) {
         case "stylish":
             return formatedToStylish($ast);
-//        case "plain":
-//            return;
+        case "plain":
+            return formatedToPlain($ast);
         default:
             throw new \Exception('Unknown format: ' . $format);
     }
