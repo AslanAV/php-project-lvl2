@@ -4,7 +4,7 @@ namespace Differ\Cli;
 
 use Docopt;
 
-use function Differ\Differ\gendiff;
+use function Differ\Differ\genDiff;
 
 /**
  * @return string
