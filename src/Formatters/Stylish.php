@@ -43,7 +43,7 @@ function formatedToStylish($ast, $factor = 0)
 function buildBody($ast, $factor)
 {
     $result = array_map(function ($node) use ($factor) {
-        $value = (is_array(value($node))) ? formatedToStylish(children($node), $factor + 1) : value($node);
+        $value = normalizedValue($node, $factor);
         switch (type($node)) {
             case "hasChildren":
                 return unchangedIndent($factor) . key($node) . keyToValue() . $value;
@@ -53,11 +53,8 @@ function buildBody($ast, $factor)
                 return deletedIndent($factor) . key($node) . keyToValue() . $value;
             case "changed":
                 $firstContent = deletedIndent($factor) . key($node) . keyToValue() . $value;
-                $key = key($node);
-                $secondValue = secondValue($node);
-                $indent = addedIndent($factor);
-                $keyToValue = keyToValue();
-                $secondContent = $indent . $key . $keyToValue . $secondValue;
+                $secondValue = normalizedSecondValue(secondValue($node), $factor);
+                $secondContent = addedIndent($factor) . key($node) . keyToValue() . $secondValue;
                 return $firstContent . "\n" . $secondContent;
             case "unchanged":
                 return unchangedIndent($factor) . key($node) . keyToValue() . $value;
@@ -109,4 +106,28 @@ function indent()
 function keyToValue()
 {
     return ":" . SPACE;
+}
+
+/**
+ * @param mixed $node
+ * @param int $factor
+ * @return string
+ */
+function normalizedValue($node, $factor)
+{
+     return (is_array(value($node))) ?
+         formatedToStylish(children($node), $factor + 1) :
+         value($node);
+}
+
+/**
+ * @param mixed $node
+ * @param int $factor
+ * @return string
+ */
+function normalizedSecondValue($node, $factor)
+{
+    return (is_array($node)) ?
+        formatedToStylish($node, $factor + 1) :
+        $node;
 }
