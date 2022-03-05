@@ -25,13 +25,7 @@ const END = "}";
  */
 function formatedToStylish($ast, $factor = 0)
 {
-    switch ($factor) {
-        case 0:
-            $end = str_repeat(indent(), $factor) . END . "\n";
-            break;
-        default:
-            $end = str_repeat(indent(), $factor) . END;
-    }
+    $end = str_repeat(indent(), $factor) . END;
     return START . buildBody($ast, $factor) . $end;
 }
 
