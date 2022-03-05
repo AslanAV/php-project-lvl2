@@ -2,6 +2,7 @@
 
 namespace Differ\BuildAst;
 
+use function Functional\map;
 use function Functional\sort;
 
 /**
@@ -66,14 +67,14 @@ function normalizedContent($content)
     if (!is_array($content)) {
         return $content;
     }
-    $result = [];
-    foreach ($content as $key => $value) {
+    $keys = array_keys($content);
+    return map($keys, function ($key) use ($content) {
+        $value = $content[$key];
         if (is_array($value)) {
-            $value = normalizedContent($value);
+            return ['type' => 'unchanged', 'key' => $key, 'value' => normalizedContent($value)];
         }
-        $result[] = ['type' => 'unchanged', 'key' => $key, 'value' => $value];
-    }
-    return $result;
+        return ['type' => 'unchanged', 'key' => $key, 'value' => $value];
+    });
 }
 
 /**
