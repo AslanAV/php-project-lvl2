@@ -19,9 +19,6 @@ const STARTSTRING = "Property ";
  */
 function formatedToPlain($ast, $parent = '')
 {
-    if ($parent === '') {
-        return buildBody($ast, $parent) . "\n";
-    }
     return buildBody($ast, $parent);
 }
 
@@ -95,6 +92,9 @@ function changedPhrase()
 function plainValue($node)
 {
     $value = value($node);
+    if (is_int($value)) {
+        $value = (string) $value;
+    }
     if (is_array($value)) {
         return "[complex value]";
     }
@@ -115,6 +115,9 @@ function plainValue($node)
 function plainSecondValue($node)
 {
     $value = secondValue($node);
+    if (is_int($value)) {
+        $value = (string) $value;
+    }
     if (is_array($value)) {
         return "[complex value]";
     }
