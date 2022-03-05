@@ -56,16 +56,16 @@ function fullPathToFile($file)
  */
 function normalizeBooleanAndNull($fixtures)
 {
-    foreach ($fixtures as $key => $item) {
+    return array_map(function ($item) {
         if (is_array($item)) {
-            $fixtures[$key] = normalizeBooleanAndNull($item);
+            return normalizeBooleanAndNull($item);
         }
         if (is_null($item)) {
-            $fixtures[$key] = "null";
+            return "null";
         }
         if (is_bool($item)) {
-            $fixtures[$key] = ($fixtures[$key] === true) ? "true" : "false";
+            return ($item === true) ? "true" : "false";
         }
-    }
-    return $fixtures;
+        return $item;
+    }, $fixtures);
 }
