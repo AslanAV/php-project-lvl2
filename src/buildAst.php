@@ -64,17 +64,20 @@ function mappedAst($key, $firstFixtures, $secondFixtures)
  */
 function normalizedContent($content)
 {
-    if (is_array($content)) {
+    $iter = function ($content) use (&$iter) {
+        if (!is_array($content)) {
+            return $content;
+        }
         $keys = array_keys($content);
-        return map($keys, function ($key) use ($content) {
+        return map($keys, function ($key) use ($content, $iter) {
             $value = $content[$key];
             if (is_array($value)) {
-                return ['type' => 'unchanged', 'key' => $key, 'value' => normalizedContent($value)];
+                return ['type' => 'unchanged', 'key' => $key, 'value' => $iter($value)];
             }
             return ['type' => 'unchanged', 'key' => $key, 'value' => $value];
         });
-    }
-    return $content;
+    };
+    return $iter($content);
 }
 
 /**
