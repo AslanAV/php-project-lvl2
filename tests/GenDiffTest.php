@@ -65,12 +65,6 @@ class GenDiffTest extends TestCase
                 "tests/fixtures/fileRecursive2.yaml",
                 "json",
                 "/fixtures/expectedTwoFileFormatJson.txt"
-            ],
-            [
-                "tests/fixtures/json1.json",
-                "tests/fixtures/json2.json",
-                "plain",
-                "/fixtures/plain.txt"
             ]
         ];
     }

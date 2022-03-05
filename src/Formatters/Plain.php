@@ -93,7 +93,7 @@ function plainValue($node)
 {
     $value = value($node);
     if (is_int($value)) {
-        $value = (string) $value;
+        return (string) $value;
     }
     if (is_array($value)) {
         return "[complex value]";
@@ -116,7 +116,7 @@ function plainSecondValue($node)
 {
     $value = secondValue($node);
     if (is_int($value)) {
-        $value = (string) $value;
+        return (string) $value;
     }
     if (is_array($value)) {
         return "[complex value]";
