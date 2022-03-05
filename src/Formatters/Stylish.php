@@ -53,10 +53,7 @@ function buildBody($ast, $factor)
                 return deletedIndent($factor) . key($node) . keyToValue() . $value;
             case "changed":
                 $firstContent = deletedIndent($factor) . key($node) . keyToValue() . $value;
-                $secondValue = (is_array(secondValue($node))) ?
-                    formatedToStylish(children(secondValue($node)), $factor + 1) :
-                    secondValue($node);
-                $secondContent = addedIndent($factor) . key($node) . keyToValue() . $secondValue;
+                $secondContent = addedIndent($factor) . key($node) . keyToValue() . secondValue($node);
                 return $firstContent . "\n" . $secondContent;
             case "unchanged":
                 return unchangedIndent($factor) . key($node) . keyToValue() . $value;
