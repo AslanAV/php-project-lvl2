@@ -55,7 +55,9 @@ function buildBody($ast, $factor)
                 $firstContent = deletedIndent($factor) . key($node) . keyToValue() . $value;
                 $key = key($node);
                 $secondValue = secondValue($node);
-                $secondContent = addedIndent($factor) . $key . keyToValue() . $secondValue;
+                $indent = addedIndent($factor);
+                $keyToValue = keyToValue();
+                $secondContent = $indent . $key . $keyToValue . $secondValue;
                 return $firstContent . "\n" . $secondContent;
             case "unchanged":
                 return unchangedIndent($factor) . key($node) . keyToValue() . $value;
