@@ -12,8 +12,8 @@ use function Functional\sort;
 function buildAst($firstFixtures, $secondFixtures)
 {
     $keys = array_merge(array_keys($firstFixtures), array_keys($secondFixtures));
-    $keys = array_unique($keys);
-    $sortedKeys = sort($keys, fn ($a, $b) => strcmp($a, $b), false);
+    $uniqueKeys = array_unique($keys);
+    $sortedKeys = sort($uniqueKeys, fn ($a, $b) => strcmp($a, $b), false);
     return array_map(fn($key) => mappedAst($key, $firstFixtures, $secondFixtures), $sortedKeys);
 }
 

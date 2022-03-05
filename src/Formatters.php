@@ -13,7 +13,6 @@ use function Differ\Formatters\Json\formatedToJson;
  */
 function formatToString($ast, $format)
 {
-    $format = mb_strtolower($format);
     switch ($format) {
         case "stylish":
             return formatedToStylish($ast);
