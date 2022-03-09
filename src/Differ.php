@@ -30,7 +30,7 @@ function prepareOfFile(string $file): array
 {
     $fileWithFullPath = getfullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);
-    if ($fileContent == false) {
+    if ($fileContent === false) {
         throw new Exception("Can't read file");
     }
     $fixture = parse($fileWithFullPath, $fileContent);
