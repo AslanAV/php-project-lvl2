@@ -16,15 +16,15 @@ function parse(string $fileWithFullPath, string $fileContent): array
     switch ($fileType) {
         case "yml":
         case "yaml":
-            $fixture = yamlDecode($fileContent);
+            $content = yamlDecode($fileContent);
             break;
         case "json":
-            $fixture = jsonDecode($fileContent);
+            $content = jsonDecode($fileContent);
             break;
         default:
             throw new Exception('Unknown type of file ' . $fileType);
     }
-    return $fixture;
+    return $content;
 }
 
 /**

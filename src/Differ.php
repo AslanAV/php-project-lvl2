@@ -16,9 +16,9 @@ use function Differ\Formatters\formatToString;
  */
 function genDiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
-    $firstFixtures = preparationOfFile($firstFile);
-    $secondFixtures = preparationOfFile($secondFile);
-    $ast = buildAst($firstFixtures, $secondFixtures);
+    $firstContent = prepareOfFile($firstFile);
+    $secondContent = prepareOfFile($secondFile);
+    $ast = buildAst($firstContent, $secondContent);
     return formatToString($ast, $format);
 }
 
@@ -26,9 +26,9 @@ function genDiff(string $firstFile, string $secondFile, string $format = 'stylis
  * @param string $file
  * @return array<string>
  */
-function preparationOfFile(string $file): array
+function prepareOfFile(string $file): array
 {
-    $fileWithFullPath = fullPathToFile($file);
+    $fileWithFullPath = getfullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);
     if ($fileContent == false) {
         throw new Exception("Can't read file");
@@ -41,7 +41,7 @@ function preparationOfFile(string $file): array
  * @param string $file
  * @return string
  */
-function fullPathToFile(string $file): string
+function getfullPathToFile(string $file): string
 {
     if (strpos($file, '/') === 0) {
         return $file;
