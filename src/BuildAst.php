@@ -25,7 +25,7 @@ function buildAst(array $firstFixtures, array $secondFixtures): array
  * @param mixed $secondValue
  * @return array<mixed>
  */
-function astNode(string $type, string $key, $value, $secondValue = null): array
+function getAstNode(string $type, string $key, $value, $secondValue = null): array
 {
     return ['type' => $type,
         'key' => $key,
@@ -44,25 +44,25 @@ function mappedAst(string $key, array $firstFixtures, array $secondFixtures): ar
     $firstContent = $firstFixtures[$key] ?? null;
     $secondContent = $secondFixtures[$key] ?? null;
     if (is_array($firstContent) && is_array($secondContent)) {
-        return astNode('hasChildren', $key, buildAst($firstContent, $secondContent));
+        return getAstNode('hasChildren', $key, buildAst($firstContent, $secondContent));
     }
     if (!array_key_exists($key, $firstFixtures)) {
-        return astNode('added', $key, normalizedContent($secondContent));
+        return getAstNode('added', $key, normalizeContent($secondContent));
     }
     if (!array_key_exists($key, $secondFixtures)) {
-        return  astNode('deleted', $key, normalizedContent($firstContent));
+        return  getAstNode('deleted', $key, normalizeContent($firstContent));
     }
     if ($firstContent !== $secondContent) {
-        return astNode('changed', $key, normalizedContent($firstContent), normalizedContent($secondContent));
+        return getAstNode('changed', $key, normalizeContent($firstContent), normalizeContent($secondContent));
     }
-    return astNode('unchanged', $key, $firstContent);
+    return getAstNode('unchanged', $key, $firstContent);
 }
 
 /**
  * @param array<mixed> $content
  * @return mixed
  */
-function normalizedContent($content)
+function normalizeContent($content)
 {
     $iter = function ($content) use (&$iter) {
         if (!is_array($content)) {
@@ -84,7 +84,7 @@ function normalizedContent($content)
  * @param array<mixed> $node
  * @return string
  */
-function type(array $node): string
+function getType(array $node): string
 {
     return $node['type'];
 }
@@ -93,7 +93,7 @@ function type(array $node): string
  * @param array<mixed> $node
  * @return string
  */
-function key(array $node): string
+function getKey(array $node): string
 {
     return $node['key'];
 }
@@ -102,7 +102,7 @@ function key(array $node): string
  * @param array<mixed> $node
  * @return mixed
  */
-function value(array $node)
+function getValue(array $node)
 {
     return $node['value'];
 }
@@ -111,7 +111,7 @@ function value(array $node)
  * @param array<mixed> $node
  * @return mixed
  */
-function secondValue($node)
+function getSecondValue($node)
 {
     return $node['secondValue'];
 }
@@ -120,7 +120,7 @@ function secondValue($node)
  * @param array<mixed> $node
  * @return array<mixed>
  */
-function children(array $node): array
+function getChildren(array $node): array
 {
     return $node['value'];
 }
@@ -131,8 +131,5 @@ function children(array $node): array
  */
 function hasChildren(array $node): bool
 {
-    if (array_key_exists('children', $node)) {
-        return true;
-    }
-    return false;
+    return array_key_exists('children', $node);
 }

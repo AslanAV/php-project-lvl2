@@ -4,11 +4,11 @@ namespace Differ\Formatters\Plain;
 
 use Exception;
 
-use function Differ\BuildAst\type;
-use function Differ\BuildAst\key;
-use function Differ\BuildAst\value;
-use function Differ\BuildAst\children;
-use function Differ\BuildAst\secondValue;
+use function Differ\BuildAst\getType;
+use function Differ\BuildAst\getKey;
+use function Differ\BuildAst\getValue;
+use function Differ\BuildAst\getChildren;
+use function Differ\BuildAst\getSecondValue;
 
 const STARTSTRING = "Property ";
 
@@ -17,7 +17,7 @@ const STARTSTRING = "Property ";
  * @param string $parent
  * @return string
  */
-function formatedToPlain(array $ast, string $parent = ''): string
+function formatToPlain(array $ast, string $parent = ''): string
 {
     return buildBody($ast, $parent);
 }
@@ -30,59 +30,26 @@ function formatedToPlain(array $ast, string $parent = ''): string
 function buildBody(array $ast, string $parent): string
 {
     $result = array_map(function ($node) use ($parent) {
-        $key = ($parent !== '') ? $parent . "." . key($node) :  $parent . key($node);
-        switch (type($node)) {
+        $key = ($parent !== '') ? $parent . "." . getKey($node) :  $parent . getKey($node);
+        switch (getType($node)) {
             case "hasChildren":
-                $newParent = ($parent !== '') ? $parent . "." . key($node) :  $parent . key($node);
-                return formatedToPlain(children($node), $newParent);
+                $newParent = ($parent !== '') ? $parent . "." . getKey($node) :  $parent . getKey($node);
+                return formatToPlain(getChildren($node), $newParent);
             case "added":
-                return STARTSTRING . keyWithBrace($key) . addedPhrase() . plainValue($node);
+                return STARTSTRING . "'{$key}'" . " was added with value: " . plainValue($node);
             case "deleted":
-                return STARTSTRING . keyWithBrace($key) . deletedPhrase();
+                return STARTSTRING . "'{$key}'" . " was removed";
             case "changed":
                 $value = plainValue($node) . " to " . plainSecondValue($node);
-                return STARTSTRING . keyWithBrace($key) . changedPhrase() . $value;
+                return STARTSTRING . "'{$key}'" . " was updated. From " . $value;
             case "unchanged":
                 break;
             default:
-                throw new Exception("Not support key" . type($node));
+                throw new Exception("Not support key" . getType($node));
         }
     }, $ast);
     $filteredResult = array_filter($result);
     return implode("\n", $filteredResult);
-}
-
-/**
- * @param string $key
- * @return string
- */
-function keyWithBrace(string $key): string
-{
-    return  "'" . $key . "'";
-}
-
-/**
- * @return string
- */
-function addedPhrase(): string
-{
-    return  " was added with value: ";
-}
-
-/**
- * @return string
- */
-function deletedPhrase(): string
-{
-    return  " was removed";
-}
-
-/**
- * @return string
- */
-function changedPhrase(): string
-{
-    return " was updated. From ";
 }
 
 /**
@@ -91,7 +58,7 @@ function changedPhrase(): string
  */
 function plainValue(array $node): string
 {
-    $value = value($node);
+    $value = getValue($node);
     if (is_int($value)) {
         return (string) $value;
     }
@@ -114,7 +81,7 @@ function plainValue(array $node): string
  */
 function plainSecondValue(array $node): string
 {
-    $value = secondValue($node);
+    $value = getSecondValue($node);
     if (is_int($value)) {
         return (string) $value;
     }

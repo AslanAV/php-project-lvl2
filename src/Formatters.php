@@ -2,9 +2,9 @@
 
 namespace Differ\Formatters;
 
-use function Differ\Formatters\Plain\formatedToPlain;
-use function Differ\Formatters\Stylish\formatedToStylish;
-use function Differ\Formatters\Json\formatedToJson;
+use function Differ\Formatters\Plain\formatToPlain;
+use function Differ\Formatters\Stylish\formatToStylish;
+use function Differ\Formatters\Json\formatToJson;
 
 /**
  * @param array<mixed> $ast
@@ -15,11 +15,11 @@ function formatToString(array $ast, string $format): string
 {
     switch ($format) {
         case "stylish":
-            return formatedToStylish($ast);
+            return formatToStylish($ast);
         case "plain":
-            return formatedToPlain($ast);
+            return formatToPlain($ast);
         case "json":
-            return formatedToJson($ast);
+            return formatToJson($ast);
         default:
             throw new \Exception('Unknown format: ' . $format);
     }
