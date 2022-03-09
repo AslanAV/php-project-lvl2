@@ -6,13 +6,12 @@ use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @param string $fileWithFullPath
+ * @param string $fileType
  * @param string $fileContent
  * @return array<mixed>
  */
-function parse(string $fileWithFullPath, string $fileContent): array
+function parse(string $fileType, string $fileContent): array
 {
-    $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
     switch ($fileType) {
         case "yml":
         case "yaml":

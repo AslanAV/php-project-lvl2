@@ -33,8 +33,9 @@ function prepareOfFile(string $file): array
     if ($fileContent === false) {
         throw new Exception("Can't read file");
     }
-    $fixture = parse($fileWithFullPath, $fileContent);
-    return normalizeBooleanAndNull($fixture);
+    $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
+    $content = parse($fileType, $fileContent);
+    return normalizeBooleanAndNull($content);
 }
 
 /**
