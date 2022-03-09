@@ -10,7 +10,7 @@ use function Functional\sort;
  * @param array<mixed> $secondFixtures
  * @return array<mixed>
  */
-function buildAst($firstFixtures, $secondFixtures)
+function buildAst(array $firstFixtures, array $secondFixtures): array
 {
     $keys = array_merge(array_keys($firstFixtures), array_keys($secondFixtures));
     $uniqueKeys = array_unique($keys);
@@ -25,7 +25,7 @@ function buildAst($firstFixtures, $secondFixtures)
  * @param mixed $secondValue
  * @return array<mixed>
  */
-function astNode($type, $key, $value, $secondValue = null)
+function astNode(string $type, string $key, $value, $secondValue = null): array
 {
     return ['type' => $type,
         'key' => $key,
@@ -39,7 +39,7 @@ function astNode($type, $key, $value, $secondValue = null)
  * @param array<mixed> $secondFixtures
  * @return array<mixed>
  */
-function mappedAst($key, $firstFixtures, $secondFixtures)
+function mappedAst(string $key, array $firstFixtures, array $secondFixtures): array
 {
     $firstContent = $firstFixtures[$key] ?? null;
     $secondContent = $secondFixtures[$key] ?? null;
@@ -84,7 +84,7 @@ function normalizedContent($content)
  * @param array<mixed> $node
  * @return string
  */
-function type($node)
+function type(array $node): string
 {
     return $node['type'];
 }
@@ -93,7 +93,7 @@ function type($node)
  * @param array<mixed> $node
  * @return string
  */
-function key($node)
+function key(array $node): string
 {
     return $node['key'];
 }
@@ -102,7 +102,7 @@ function key($node)
  * @param array<mixed> $node
  * @return mixed
  */
-function value($node)
+function value(array $node)
 {
     return $node['value'];
 }
@@ -120,7 +120,7 @@ function secondValue($node)
  * @param array<mixed> $node
  * @return array<mixed>
  */
-function children($node)
+function children(array $node): array
 {
     return $node['value'];
 }
@@ -129,7 +129,7 @@ function children($node)
  * @param array<mixed> $node
  * @return bool
  */
-function hasChildren($node)
+function hasChildren(array $node): bool
 {
     if (array_key_exists('children', $node)) {
         return true;

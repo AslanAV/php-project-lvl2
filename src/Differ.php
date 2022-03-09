@@ -14,7 +14,7 @@ use function Differ\Formatters\formatToString;
  * @param string $format
  * @return string
  */
-function genDiff($firstFile, $secondFile, $format = 'stylish')
+function genDiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
     $firstFixtures = preparationOfFile($firstFile);
     $secondFixtures = preparationOfFile($secondFile);
@@ -24,9 +24,9 @@ function genDiff($firstFile, $secondFile, $format = 'stylish')
 
 /**
  * @param string $file
- * @return array<mixed>
+ * @return array<string>
  */
-function preparationOfFile($file)
+function preparationOfFile(string $file): array
 {
     $fileWithFullPath = fullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);
@@ -41,7 +41,7 @@ function preparationOfFile($file)
  * @param string $file
  * @return string
  */
-function fullPathToFile($file)
+function fullPathToFile(string $file): string
 {
     if (strpos($file, '/') === 0) {
         return $file;
@@ -52,9 +52,9 @@ function fullPathToFile($file)
 
 /**
  * @param array<mixed> $fixtures
- * @return array<mixed>
+ * @return array<string>
  */
-function normalizeBooleanAndNull($fixtures)
+function normalizeBooleanAndNull(array $fixtures): array
 {
     return array_map(function ($item) {
         if (is_array($item)) {

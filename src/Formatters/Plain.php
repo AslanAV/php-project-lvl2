@@ -17,7 +17,7 @@ const STARTSTRING = "Property ";
  * @param string $parent
  * @return string
  */
-function formatedToPlain($ast, $parent = '')
+function formatedToPlain(array $ast, string $parent = ''): string
 {
     return buildBody($ast, $parent);
 }
@@ -27,7 +27,7 @@ function formatedToPlain($ast, $parent = '')
  * @param string $parent
  * @return string
  */
-function buildBody($ast, $parent)
+function buildBody(array $ast, string $parent): string
 {
     $result = array_map(function ($node) use ($parent) {
         $key = ($parent !== '') ? $parent . "." . key($node) :  $parent . key($node);
@@ -56,7 +56,7 @@ function buildBody($ast, $parent)
  * @param string $key
  * @return string
  */
-function keyWithBrace($key)
+function keyWithBrace(string $key): string
 {
     return  "'" . $key . "'";
 }
@@ -64,7 +64,7 @@ function keyWithBrace($key)
 /**
  * @return string
  */
-function addedPhrase()
+function addedPhrase(): string
 {
     return  " was added with value: ";
 }
@@ -72,7 +72,7 @@ function addedPhrase()
 /**
  * @return string
  */
-function deletedPhrase()
+function deletedPhrase(): string
 {
     return  " was removed";
 }
@@ -80,7 +80,7 @@ function deletedPhrase()
 /**
  * @return string
  */
-function changedPhrase()
+function changedPhrase(): string
 {
     return " was updated. From ";
 }
@@ -89,7 +89,7 @@ function changedPhrase()
  * @param array<mixed> $node
  * @return string
  */
-function plainValue($node)
+function plainValue(array $node): string
 {
     $value = value($node);
     if (is_int($value)) {
@@ -112,7 +112,7 @@ function plainValue($node)
  * @param array<mixed> $node
  * @return string
  */
-function plainSecondValue($node)
+function plainSecondValue(array $node): string
 {
     $value = secondValue($node);
     if (is_int($value)) {

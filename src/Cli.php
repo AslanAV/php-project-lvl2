@@ -6,6 +6,9 @@ use Docopt;
 
 use function Differ\Differ\genDiff;
 
+/**
+ * @return string
+ */
 function start(): string
 {
     $doc = <<<DOC

@@ -6,7 +6,7 @@ namespace Differ\Formatters\Json;
  * @param array<mixed> $ast
  * @return mixed
  */
-function formatedToJson($ast)
+function formatedToJson(array $ast)
 {
     return json_encode($ast);
 }

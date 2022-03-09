@@ -23,7 +23,7 @@ const END = "}";
  * @param int $factor
  * @return string
  */
-function formatedToStylish($ast, $factor = 0)
+function formatedToStylish(array $ast, int $factor = 0): string
 {
     $end = str_repeat(indent(), $factor) . END;
     return START . buildBody($ast, $factor) . $end;
@@ -34,7 +34,7 @@ function formatedToStylish($ast, $factor = 0)
  * @param int $factor
  * @return string
  */
-function buildBody($ast, $factor)
+function buildBody(array $ast, int $factor): string
 {
     $result = array_map(function ($node) use ($factor) {
         $value = normalizedValue($node, $factor);
@@ -63,7 +63,7 @@ function buildBody($ast, $factor)
  * @param int $factor
  * @return string
  */
-function addedIndent($factor)
+function addedIndent(int $factor): string
 {
     return str_repeat(indent(), $factor) . SPACE . SPACE . ADDED . SPACE;
 }
@@ -72,7 +72,7 @@ function addedIndent($factor)
  * @param int $factor
  * @return string
  */
-function deletedIndent($factor)
+function deletedIndent(int $factor): string
 {
     return str_repeat(indent(), $factor) . SPACE . SPACE . DELETED . SPACE;
 }
@@ -81,7 +81,7 @@ function deletedIndent($factor)
  * @param int $factor
  * @return string
  */
-function unchangedIndent($factor)
+function unchangedIndent(int $factor): string
 {
     return str_repeat(indent(), $factor) . indent();
 }
@@ -89,7 +89,7 @@ function unchangedIndent($factor)
 /**
  * @return string
  */
-function indent()
+function indent(): string
 {
     return str_repeat(SPACE, 4);
 }
@@ -97,7 +97,7 @@ function indent()
 /**
  * @return string
  */
-function keyToValue()
+function keyToValue(): string
 {
     return ":" . SPACE;
 }
@@ -107,7 +107,7 @@ function keyToValue()
  * @param int $factor
  * @return string
  */
-function normalizedValue($node, $factor)
+function normalizedValue($node, int $factor): string
 {
      return (is_array(value($node))) ?
          formatedToStylish(children($node), $factor + 1) :
@@ -119,7 +119,7 @@ function normalizedValue($node, $factor)
  * @param int $factor
  * @return string
  */
-function normalizedSecondValue($node, $factor)
+function normalizedSecondValue($node, int $factor): string
 {
     return (is_array($node)) ?
         formatedToStylish($node, $factor + 1) :

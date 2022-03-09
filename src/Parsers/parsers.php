@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
  * @param string $fileContent
  * @return array<mixed>
  */
-function parse($fileWithFullPath, $fileContent)
+function parse(string $fileWithFullPath, string $fileContent): array
 {
     $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
     switch ($fileType) {
@@ -31,7 +31,7 @@ function parse($fileWithFullPath, $fileContent)
  * @param string $fileContent
  * @return array<mixed>
  */
-function yamlDecode($fileContent)
+function yamlDecode(string $fileContent): array
 {
     return Yaml::parse($fileContent);
 }
@@ -40,7 +40,7 @@ function yamlDecode($fileContent)
  * @param string $fileContent
  * @return array<mixed>
  */
-function jsonDecode($fileContent)
+function jsonDecode(string $fileContent): array
 {
     return json_decode($fileContent, true);
 }
