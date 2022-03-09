@@ -19,9 +19,7 @@ class GenDiffTest extends TestCase
      */
     public function testGendiffTwofile($file1, $file2, $format, $expected)
     {
-        $result = gendiff($file1, $file2, $format);
-        $expected = file_get_contents(__DIR__ . $expected);
-        $this->assertEquals($expected, $result);
+        $this->assertStringEqualsFile($expected, gendiff($file1, $file2, $format));
     }
 
     /**
@@ -34,37 +32,37 @@ class GenDiffTest extends TestCase
                 "tests/fixtures/filepath1.json",
                 "tests/fixtures/filepath2.json",
                 "stylish",
-                "/fixtures/expectedTwoFileFormatStylish.txt"
+                __DIR__ . "/fixtures/expectedTwoFileFormatStylish.txt"
             ],
             [
                 "tests/fixtures/fileRecursive1.yaml",
                 "tests/fixtures/fileRecursive2.yaml",
                 "stylish",
-                "/fixtures/expectedTwoFileFormatStylish.txt"
+                __DIR__ . "/fixtures/expectedTwoFileFormatStylish.txt"
             ],
             [
                 "tests/fixtures/filepath1.json",
                 "tests/fixtures/filepath2.json",
                 "plain",
-                "/fixtures/expectedTwoFileFormatPlain.txt"
+                __DIR__ . "/fixtures/expectedTwoFileFormatPlain.txt"
             ],
             [
                 "tests/fixtures/fileRecursive1.yaml",
                 "tests/fixtures/fileRecursive2.yaml",
                 "plain",
-                "/fixtures/expectedTwoFileFormatPlain.txt"
+                __DIR__ . "/fixtures/expectedTwoFileFormatPlain.txt"
             ],
             [
                 "tests/fixtures/filepath1.json",
                 "tests/fixtures/filepath2.json",
                 "json",
-                "/fixtures/expectedTwoFileFormatJson.txt"
+                __DIR__ . "/fixtures/expectedTwoFileFormatJson.txt"
             ],
             [
                 "tests/fixtures/fileRecursive1.yaml",
                 "tests/fixtures/fileRecursive2.yaml",
                 "json",
-                "/fixtures/expectedTwoFileFormatJson.txt"
+                __DIR__ . "/fixtures/expectedTwoFileFormatJson.txt"
             ]
         ];
     }
