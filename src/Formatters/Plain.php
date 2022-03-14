@@ -64,11 +64,14 @@ function buildBody(array $ast, string $parent): string
 }
 
 /**
- * @param array<mixed>|string $value
+ * @param array<mixed>|string|int $value
  * @return string
  */
 function getPlainValue($value): string
 {
+    if (is_int($value)) {
+        return  "'" . $value . "'";
+    }
     if (is_array($value)) {
         return "[complex value]";
     }
