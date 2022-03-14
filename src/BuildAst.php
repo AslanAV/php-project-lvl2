@@ -6,16 +6,18 @@ use function Functional\map;
 use function Functional\sort;
 
 /**
- * @param array<mixed> $firstFixtures
- * @param array<mixed> $secondFixtures
+ * @param array<mixed> $firstContentfromFile
+ * @param array<mixed> $secondContentFromFile
  * @return array<mixed>
  */
-function buildAst(array $firstFixtures, array $secondFixtures): array
+function buildAst(array $firstContentfromFile, array $secondContentFromFile): array
 {
-    $keys = array_merge(array_keys($firstFixtures), array_keys($secondFixtures));
+    $firstContent = normalizeBooleanAndNull($firstContentfromFile);
+    $secondContent = normalizeBooleanAndNull($secondContentFromFile);
+    $keys = array_merge(array_keys($firstContent), array_keys($secondContent));
     $uniqueKeys = array_unique($keys);
     $sortedKeys = sort($uniqueKeys, fn ($a, $b) => strcmp($a, $b), false);
-    return array_map(fn($key) => mappedAst($key, $firstFixtures, $secondFixtures), $sortedKeys);
+    return array_map(fn($key) => getMapAst($key, $firstContent, $secondContent), $sortedKeys);
 }
 
 /**
@@ -39,7 +41,7 @@ function getAstNode(string $type, string $key, $value, $secondValue = null): arr
  * @param array<mixed> $secondFixtures
  * @return array<mixed>
  */
-function mappedAst(string $key, array $firstFixtures, array $secondFixtures): array
+function getMapAst(string $key, array $firstFixtures, array $secondFixtures): array
 {
     $firstContent = $firstFixtures[$key] ?? null;
     $secondContent = $secondFixtures[$key] ?? null;
@@ -78,6 +80,26 @@ function normalizeContent($content)
         });
     };
     return $iter($content);
+}
+
+/**
+ * @param array<mixed> $fixtures
+ * @return array<string>
+ */
+function normalizeBooleanAndNull(array $fixtures): array
+{
+    return array_map(function ($item) {
+        if (is_array($item)) {
+            return normalizeBooleanAndNull($item);
+        }
+        if (is_null($item)) {
+            return "null";
+        }
+        if (is_bool($item)) {
+            return ($item === true) ? "true" : "false";
+        }
+        return $item;
+    }, $fixtures);
 }
 
 /**

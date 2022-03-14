@@ -10,14 +10,22 @@ use function Differ\BuildAst\getValue;
 use function Differ\BuildAst\getChildren;
 use function Differ\BuildAst\getSecondValue;
 
-const STARTSTRING = "Property ";
+/**
+ * @param array<mixed> $ast
+ * @return string
+ */
+function format(array $ast): string
+{
+    $parent = '';
+    return getFormatPlain($ast, $parent);
+}
 
 /**
  * @param array<mixed> $ast
  * @param string $parent
  * @return string
  */
-function formatToPlain(array $ast, string $parent = ''): string
+function getFormatPlain(array $ast, string $parent = ''): string
 {
     return buildBody($ast, $parent);
 }
@@ -34,14 +42,17 @@ function buildBody(array $ast, string $parent): string
         switch (getType($node)) {
             case "hasChildren":
                 $newParent = ($parent !== '') ? $parent . "." . getKey($node) :  $parent . getKey($node);
-                return formatToPlain(getChildren($node), $newParent);
+                return getFormatPlain(getChildren($node), $newParent);
             case "added":
-                return STARTSTRING . "'{$key}'" . " was added with value: " . plainValue($node);
+                $value = getPlainValue(getValue($node));
+                return "Property " . "'{$key}'" . " was added with value: " . $value;
             case "deleted":
-                return STARTSTRING . "'{$key}'" . " was removed";
+                return "Property " . "'{$key}'" . " was removed";
             case "changed":
-                $value = plainValue($node) . " to " . plainSecondValue($node);
-                return STARTSTRING . "'{$key}'" . " was updated. From " . $value;
+                $firstValue = getPlainValue(getValue($node));
+                $secondValue = getPlainValue(getSecondValue($node));
+                $value = $firstValue . " to " . $secondValue;
+                return "Property " . "'{$key}'" . " was updated. From " . $value;
             case "unchanged":
                 break;
             default:
@@ -53,38 +64,11 @@ function buildBody(array $ast, string $parent): string
 }
 
 /**
- * @param array<mixed> $node
+ * @param array<mixed>|string $value
  * @return string
  */
-function plainValue(array $node): string
+function getPlainValue($value): string
 {
-    $value = getValue($node);
-    if (is_int($value)) {
-        return (string) $value;
-    }
-    if (is_array($value)) {
-        return "[complex value]";
-    }
-    switch ($value) {
-        case "false":
-        case "true":
-        case "null":
-            return $value;
-        default:
-            return  "'" . $value . "'";
-    }
-}
-
-/**
- * @param array<mixed> $node
- * @return string
- */
-function plainSecondValue(array $node): string
-{
-    $value = getSecondValue($node);
-    if (is_int($value)) {
-        return (string) $value;
-    }
     if (is_array($value)) {
         return "[complex value]";
     }

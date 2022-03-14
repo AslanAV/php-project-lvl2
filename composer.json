@@ -6,7 +6,7 @@
         "files": [
             "src/Cli.php",
             "src/Differ.php",
-            "src/Parsers/Parsers.php",
+            "src/Parsers.php",
             "src/BuildAst.php",
             "src/Formatters/Stylish.php",
             "src/Formatters/Plain.php",

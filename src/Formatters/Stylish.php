@@ -19,10 +19,20 @@ const END = "}";
 
 /**
  * @param array<mixed> $ast
+ * @return string
+ */
+function format(array $ast): string
+{
+    $factor = 0;
+    return getFormatStylish($ast, $factor);
+}
+
+/**
+ * @param array<mixed> $ast
  * @param int $factor
  * @return string
  */
-function formatToStylish(array $ast, int $factor = 0): string
+function getFormatStylish(array $ast, int $factor = 0): string
 {
     return START . buildBody($ast, $factor) . getEndofStylish($factor);
 }
@@ -35,21 +45,21 @@ function formatToStylish(array $ast, int $factor = 0): string
 function buildBody(array $ast, int $factor): string
 {
     $result = array_map(function ($node) use ($factor) {
-        $value = normalizedValue($node, $factor);
+        $value = normalizeValue(getValue($node), $factor);
+        $endOfLine = getKey($node) . getIndentKeyToValue() . $value;
         switch (getType($node)) {
-            case "hasChildren":
-                return getUnchangedIndent($factor) . getKey($node) . getIndentkeyToValue() . $value;
-            case "added":
-                return getAddedIndent($factor) . getKey($node) . getIndentkeyToValue() . $value;
-            case "deleted":
-                return getDeletedIndent($factor) . getKey($node) . getIndentkeyToValue() . $value;
-            case "changed":
-                $firstContent = getDeletedIndent($factor) . getKey($node) . getIndentkeyToValue() . $value;
-                $secondValue = normalizedSecondValue(getSecondValue($node), $factor);
-                $secondContent = getAddedIndent($factor) . getKey($node) . getIndentkeyToValue() . $secondValue;
-                return $firstContent . "\n" . $secondContent;
             case "unchanged":
-                return getUnchangedIndent($factor) . getKey($node) . getIndentkeyToValue() . $value;
+            case "hasChildren":
+                return getUnchangedIndent($factor) . $endOfLine;
+            case "added":
+                return getAddedIndent($factor) . $endOfLine;
+            case "deleted":
+                return getDeletedIndent($factor) . $endOfLine;
+            case "changed":
+                $firstContent = getDeletedIndent($factor) . $endOfLine;
+                $secondValue = normalizeValue(getSecondValue($node), $factor);
+                $secondContent = getAddedIndent($factor) . getKey($node) . getIndentKeyToValue() . $secondValue;
+                return $firstContent . "\n" . $secondContent;
             default:
                 throw new Exception("Not support key" . getType($node));
         }
@@ -95,7 +105,7 @@ function getIndent(): string
 /**
  * @return string
  */
-function getIndentkeyToValue(): string
+function getIndentKeyToValue(): string
 {
     return ":" . SPACE;
 }
@@ -105,23 +115,11 @@ function getIndentkeyToValue(): string
  * @param int $factor
  * @return string
  */
-function normalizedValue($node, int $factor): string
+function normalizeValue($node, int $factor): string
 {
-     return (is_array(getValue($node))) ?
-         formatToStylish(getChildren($node), $factor + 1) :
-         getValue($node);
-}
-
-/**
- * @param mixed $node
- * @param int $factor
- * @return string
- */
-function normalizedSecondValue($node, int $factor): string
-{
-    return (is_array($node)) ?
-        formatToStylish($node, $factor + 1) :
-        $node;
+     return (is_array($node)) ?
+         getFormatStylish($node, $factor + 1) :
+         $node;
 }
 
 /**
