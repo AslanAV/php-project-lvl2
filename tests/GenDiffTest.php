@@ -29,41 +29,50 @@ class GenDiffTest extends TestCase
     {
         return [
             [
-                "tests/fixtures/filepath1.json",
-                "tests/fixtures/filepath2.json",
+                $this->getFullPathToFile("filepath1.json"),
+                $this->getFullPathToFile("filepath2.json"),
                 "stylish",
-                __DIR__ . "/fixtures/expectedTwoFileFormatStylish.txt"
+                $this->getFullPathToFile("expectedTwoFileFormatStylish.txt")
             ],
             [
-                "tests/fixtures/fileRecursive1.yaml",
-                "tests/fixtures/fileRecursive2.yaml",
+                $this->getFullPathToFile("fileRecursive1.yaml"),
+                $this->getFullPathToFile("fileRecursive2.yaml"),
                 "stylish",
-                __DIR__ . "/fixtures/expectedTwoFileFormatStylish.txt"
+                $this->getFullPathToFile("expectedTwoFileFormatStylish.txt")
             ],
             [
-                "tests/fixtures/filepath1.json",
-                "tests/fixtures/filepath2.json",
+                $this->getFullPathToFile("filepath1.json"),
+                $this->getFullPathToFile("filepath2.json"),
                 "plain",
-                __DIR__ . "/fixtures/expectedTwoFileFormatPlain.txt"
+                $this->getFullPathToFile("expectedTwoFileFormatPlain.txt")
             ],
             [
-                "tests/fixtures/fileRecursive1.yaml",
-                "tests/fixtures/fileRecursive2.yaml",
+                $this->getFullPathToFile("fileRecursive1.yaml"),
+                $this->getFullPathToFile("fileRecursive2.yaml"),
                 "plain",
-                __DIR__ . "/fixtures/expectedTwoFileFormatPlain.txt"
+                $this->getFullPathToFile("expectedTwoFileFormatPlain.txt")
             ],
             [
-                "tests/fixtures/filepath1.json",
-                "tests/fixtures/filepath2.json",
+                $this->getFullPathToFile("filepath1.json"),
+                $this->getFullPathToFile("filepath2.json"),
                 "json",
-                __DIR__ . "/fixtures/expectedTwoFileFormatJson.txt"
+                $this->getFullPathToFile("expectedTwoFileFormatJson.txt")
             ],
             [
-                "tests/fixtures/fileRecursive1.yaml",
-                "tests/fixtures/fileRecursive2.yaml",
+                $this->getFullPathToFile("fileRecursive1.yaml"),
+                $this->getFullPathToFile("fileRecursive2.yaml"),
                 "json",
-                __DIR__ . "/fixtures/expectedTwoFileFormatJson.txt"
+                $this->getFullPathToFile("expectedTwoFileFormatJson.txt")
             ]
         ];
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    private function getFullPathToFile(string $path): string
+    {
+        return __DIR__ . "/fixtures/" . $path;
     }
 }
