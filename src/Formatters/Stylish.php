@@ -34,7 +34,7 @@ function format(array $ast): string
  */
 function getFormatStylish(array $ast, int $factor = 0): string
 {
-    return START . buildBody($ast, $factor) . getEndofStylish($factor);
+    return START . buildBody($ast, $factor) . str_repeat(getIndent(), $factor) . END;
 }
 
 /**
@@ -46,7 +46,7 @@ function buildBody(array $ast, int $factor): string
 {
     $result = array_map(function ($node) use ($factor) {
         $value = normalizeValue(getValue($node), $factor);
-        $endOfLine = getKey($node) . getIndentKeyToValue() . $value;
+        $endOfLine = getKey($node) . ":" . SPACE . $value;
         switch (getType($node)) {
             case "unchanged":
             case "hasChildren":
@@ -58,7 +58,7 @@ function buildBody(array $ast, int $factor): string
             case "changed":
                 $firstContent = getDeletedIndent($factor) . $endOfLine;
                 $secondValue = normalizeValue(getSecondValue($node), $factor);
-                $secondContent = getAddedIndent($factor) . getKey($node) . getIndentKeyToValue() . $secondValue;
+                $secondContent = getAddedIndent($factor) . getKey($node) . ":" . SPACE . $secondValue;
                 return $firstContent . "\n" . $secondContent;
             default:
                 throw new Exception("Not support key" . getType($node));
@@ -102,13 +102,6 @@ function getIndent(): string
     return str_repeat(SPACE, 4);
 }
 
-/**
- * @return string
- */
-function getIndentKeyToValue(): string
-{
-    return ":" . SPACE;
-}
 
 /**
  * @param mixed $node
@@ -120,13 +113,4 @@ function normalizeValue($node, int $factor): string
      return (is_array($node)) ?
          getFormatStylish($node, $factor + 1) :
          $node;
-}
-
-/**
- * @param int $factor
- * @return string
- */
-function getEndofStylish(int $factor): string
-{
-    return str_repeat(getIndent(), $factor) . END;
 }

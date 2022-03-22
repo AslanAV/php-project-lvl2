@@ -6,18 +6,17 @@ use function Functional\map;
 use function Functional\sort;
 
 /**
- * @param array<mixed> $firstContentfromFile
+ * @param array<mixed> $firstContentFromFile
  * @param array<mixed> $secondContentFromFile
  * @return array<mixed>
  */
-function buildAst(array $firstContentfromFile, array $secondContentFromFile): array
+function buildAst(array $firstContentFromFile, array $secondContentFromFile): array
 {
-    $firstContent = normalizeBooleanAndNull($firstContentfromFile);
-    $secondContent = normalizeBooleanAndNull($secondContentFromFile);
-    $keys = array_merge(array_keys($firstContent), array_keys($secondContent));
+    $keys = array_merge(array_keys($firstContentFromFile), array_keys($secondContentFromFile));
     $uniqueKeys = array_unique($keys);
     $sortedKeys = sort($uniqueKeys, fn ($a, $b) => strcmp($a, $b), false);
-    return array_map(fn($key) => getMapAst($key, $firstContent, $secondContent), $sortedKeys);
+
+    return array_map(fn($key) => getMapAst($key, $firstContentFromFile, $secondContentFromFile), $sortedKeys);
 }
 
 /**
@@ -37,26 +36,30 @@ function getAstNode(string $type, string $key, $value, $secondValue = null): arr
 
 /**
  * @param string $key
- * @param array<mixed> $firstFixtures
- * @param array<mixed> $secondFixtures
+ * @param array<mixed> $firstContentFromFile
+ * @param array<mixed> $secondContentFromFile
  * @return array<mixed>
  */
-function getMapAst(string $key, array $firstFixtures, array $secondFixtures): array
+function getMapAst(string $key, array $firstContentFromFile, array $secondContentFromFile): array
 {
-    $firstContent = $firstFixtures[$key] ?? null;
-    $secondContent = $secondFixtures[$key] ?? null;
+    $firstContent = $firstContentFromFile[$key] ?? null;
+    $secondContent = $secondContentFromFile[$key] ?? null;
     if (is_array($firstContent) && is_array($secondContent)) {
         return getAstNode('hasChildren', $key, buildAst($firstContent, $secondContent));
     }
-    if (!array_key_exists($key, $firstFixtures)) {
+
+    if (!array_key_exists($key, $firstContentFromFile)) {
         return getAstNode('added', $key, normalizeContent($secondContent));
     }
-    if (!array_key_exists($key, $secondFixtures)) {
+
+    if (!array_key_exists($key, $secondContentFromFile)) {
         return  getAstNode('deleted', $key, normalizeContent($firstContent));
     }
+
     if ($firstContent !== $secondContent) {
         return getAstNode('changed', $key, normalizeContent($firstContent), normalizeContent($secondContent));
     }
+
     return getAstNode('unchanged', $key, $firstContent);
 }
 
@@ -68,38 +71,34 @@ function normalizeContent($content)
 {
     $iter = function ($content) use (&$iter) {
         if (!is_array($content)) {
-            return $content;
+            return normalizeBooleanAndNull($content);
         }
+
         $keys = array_keys($content);
         return map($keys, function ($key) use ($content, $iter) {
-            $value = $content[$key];
-            if (is_array($value)) {
-                return ['type' => 'unchanged', 'key' => $key, 'value' => $iter($value)];
-            }
+            $value = (is_array($content[$key])) ? $iter($content[$key]) : normalizeBooleanAndNull($content[$key]);
+
             return ['type' => 'unchanged', 'key' => $key, 'value' => $value];
         });
     };
+
     return $iter($content);
 }
 
 /**
- * @param array<mixed> $fixtures
- * @return array<string>
+ * @param mixed $contents
+ * @return mixed
  */
-function normalizeBooleanAndNull(array $fixtures): array
+function normalizeBooleanAndNull($contents)
 {
-    return array_map(function ($item) {
-        if (is_array($item)) {
-            return normalizeBooleanAndNull($item);
-        }
-        if (is_null($item)) {
-            return "null";
-        }
-        if (is_bool($item)) {
-            return ($item === true) ? "true" : "false";
-        }
-        return $item;
-    }, $fixtures);
+    if (is_null($contents)) {
+        return "null";
+    }
+
+    if (is_bool($contents)) {
+        return ($contents === true) ? "true" : "false";
+    }
+    return $contents;
 }
 
 /**

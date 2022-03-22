@@ -19,6 +19,7 @@ function genDiff(string $firstFile, string $secondFile, string $format = 'stylis
     $firstContent = getContentFromFiles($firstFile);
     $secondContent = getContentFromFiles($secondFile);
     $ast = buildAst($firstContent, $secondContent);
+
     return formatToString($ast, $format);
 }
 
@@ -28,12 +29,14 @@ function genDiff(string $firstFile, string $secondFile, string $format = 'stylis
  */
 function getContentFromFiles(string $file): array
 {
-    $fileWithFullPath = getfullPathToFile($file);
+    $fileWithFullPath = getFullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);
     if ($fileContent === false) {
         throw new Exception("Can't read file");
     }
+
     $fileType = pathinfo($fileWithFullPath, PATHINFO_EXTENSION);
+
     return parse($fileType, $fileContent);
 }
 
@@ -41,7 +44,7 @@ function getContentFromFiles(string $file): array
  * @param string $file
  * @return string
  */
-function getfullPathToFile(string $file): string
+function getFullPathToFile(string $file): string
 {
     if (strpos($file, '/') === 0) {
         return $file;

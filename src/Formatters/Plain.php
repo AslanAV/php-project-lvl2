@@ -12,20 +12,10 @@ use function Differ\BuildAst\getSecondValue;
 
 /**
  * @param array<mixed> $ast
- * @return string
- */
-function format(array $ast): string
-{
-    $parent = '';
-    return getFormatPlain($ast, $parent);
-}
-
-/**
- * @param array<mixed> $ast
  * @param string $parent
  * @return string
  */
-function getFormatPlain(array $ast, string $parent = ''): string
+function format(array $ast, string $parent = ''): string
 {
     return buildBody($ast, $parent);
 }
@@ -42,17 +32,17 @@ function buildBody(array $ast, string $parent): string
         switch (getType($node)) {
             case "hasChildren":
                 $newParent = ($parent !== '') ? $parent . "." . getKey($node) :  $parent . getKey($node);
-                return getFormatPlain(getChildren($node), $newParent);
+                return format(getChildren($node), $newParent);
             case "added":
                 $value = getPlainValue(getValue($node));
-                return "Property " . "'{$key}'" . " was added with value: " . $value;
+                return "Property '{$key}' was added with value: {$value}";
             case "deleted":
-                return "Property " . "'{$key}'" . " was removed";
+                return "Property '{$key}' was removed";
             case "changed":
                 $firstValue = getPlainValue(getValue($node));
                 $secondValue = getPlainValue(getSecondValue($node));
                 $value = $firstValue . " to " . $secondValue;
-                return "Property " . "'{$key}'" . " was updated. From " . $value;
+                return "Property '{$key}' was updated. From {$value}";
             case "unchanged":
                 break;
             default:
