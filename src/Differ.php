@@ -16,8 +16,8 @@ use function Differ\Formatters\formatToString;
  */
 function genDiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
-    $firstContent = getContentFromFiles($firstFile);
-    $secondContent = getContentFromFiles($secondFile);
+    $firstContent = getContentFromFile($firstFile);
+    $secondContent = getContentFromFile($secondFile);
     $ast = buildAst($firstContent, $secondContent);
 
     return formatToString($ast, $format);
@@ -27,7 +27,7 @@ function genDiff(string $firstFile, string $secondFile, string $format = 'stylis
  * @param string $file
  * @return array<string>
  */
-function getContentFromFiles(string $file): array
+function getContentFromFile(string $file): array
 {
     $fileWithFullPath = getFullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);
