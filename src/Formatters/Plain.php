@@ -52,23 +52,26 @@ function buildBody(array $ast, string $parent = ''): string
 }
 
 /**
- * @param array<mixed>|string|int $value
- * @return string
+ * @param mixed $value
+ * @return mixed
  */
-function getPlainValue($value): string
+function getPlainValue($value)
 {
     if (is_int($value)) {
         return  (string) $value;
     }
+
     if (is_array($value)) {
         return "[complex value]";
     }
-    switch ($value) {
-        case "false":
-        case "true":
-        case "null":
-            return $value;
-        default:
-            return  "'" . $value . "'";
+
+    if (is_null($value)) {
+        return "null";
     }
+
+    if (is_bool($value)) {
+        return ($value === true) ? "true" : "false";
+    }
+
+    return  "'" . $value . "'";
 }

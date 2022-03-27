@@ -112,5 +112,21 @@ function normalizeValue($node, int $factor): string
 {
      return (is_array($node)) ?
          getFormatStylish($node, $factor + 1) :
-         $node;
+         normalizeBooleanAndNull($node);
+}
+
+/**
+ * @param mixed $contents
+ * @return mixed
+ */
+function normalizeBooleanAndNull($contents)
+{
+    if (is_null($contents)) {
+        return "null";
+    }
+
+    if (is_bool($contents)) {
+        return ($contents === true) ? "true" : "false";
+    }
+    return $contents;
 }

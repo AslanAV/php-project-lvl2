@@ -71,12 +71,14 @@ function normalizeContent($content)
 {
     $iter = function ($content) use (&$iter) {
         if (!is_array($content)) {
-            return normalizeBooleanAndNull($content);
+            return $content;
+//            return normalizeBooleanAndNull($content);
         }
 
         $keys = array_keys($content);
         return map($keys, function ($key) use ($content, $iter) {
-            $value = (is_array($content[$key])) ? $iter($content[$key]) : normalizeBooleanAndNull($content[$key]);
+            $value = (is_array($content[$key])) ? $iter($content[$key]) : $content[$key];
+//            $value = (is_array($content[$key])) ? $iter($content[$key]) : normalizeBooleanAndNull($content[$key]);
 
             return ['type' => 'unchanged', 'key' => $key, 'value' => $value];
         });
@@ -85,21 +87,21 @@ function normalizeContent($content)
     return $iter($content);
 }
 
-/**
- * @param mixed $contents
- * @return mixed
- */
-function normalizeBooleanAndNull($contents)
-{
-    if (is_null($contents)) {
-        return "null";
-    }
-
-    if (is_bool($contents)) {
-        return ($contents === true) ? "true" : "false";
-    }
-    return $contents;
-}
+///**
+// * @param mixed $contents
+// * @return mixed
+// */
+//function normalizeBooleanAndNull($contents)
+//{
+//    if (is_null($contents)) {
+//        return "null";
+//    }
+//
+//    if (is_bool($contents)) {
+//        return ($contents === true) ? "true" : "false";
+//    }
+//    return $contents;
+//}
 
 /**
  * @param array<mixed> $node
