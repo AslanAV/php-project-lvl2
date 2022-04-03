@@ -16,7 +16,7 @@ function buildAst(array $firstContentFromFile, array $secondContentFromFile): ar
     $uniqueKeys = array_unique($keys);
     $sortedKeys = sort($uniqueKeys, fn ($a, $b) => strcmp($a, $b), false);
 
-    return array_map(fn($key) => getMapAst($key, $firstContentFromFile, $secondContentFromFile), $sortedKeys);
+    return array_map(fn($key) => getAst($key, $firstContentFromFile, $secondContentFromFile), $sortedKeys);
 }
 
 /**
@@ -40,7 +40,7 @@ function getAstNode(string $type, string $key, $value, $secondValue = null): arr
  * @param array<mixed> $secondContentFromFile
  * @return array<mixed>
  */
-function getMapAst(string $key, array $firstContentFromFile, array $secondContentFromFile): array
+function getAst(string $key, array $firstContentFromFile, array $secondContentFromFile): array
 {
     $firstContent = $firstContentFromFile[$key] ?? null;
     $secondContent = $secondContentFromFile[$key] ?? null;

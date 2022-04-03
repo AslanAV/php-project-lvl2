@@ -19,7 +19,10 @@ class GenDiffTest extends TestCase
      */
     public function testGendiffTwofile($file1, $file2, $format, $expected)
     {
-        $this->assertStringEqualsFile($expected, gendiff($file1, $file2, $format));
+        $fixture1 = $this->getFullPathToFile($file1);
+        $fixture2 = $this->getFullPathToFile($file2);
+        $expectedDiff = $this->getFullPathToFile($expected);
+        $this->assertStringEqualsFile($expectedDiff, gendiff($fixture1, $fixture2, $format));
     }
 
     /**
@@ -27,33 +30,44 @@ class GenDiffTest extends TestCase
      */
     public function diffTwoFileProvider()
     {
-        $files = [
+        return [
             [
                 "filepath1.json",
-                "filepath2.json"
+                "filepath2.json",
+                "stylish",
+                "expectedTwoFileFormatStylish.txt"
             ],
             [
                 "fileRecursive1.yaml",
-                "fileRecursive2.yaml"
+                "fileRecursive2.yaml",
+                "stylish",
+                "expectedTwoFileFormatStylish.txt"
+            ],
+            [
+                "filepath1.json",
+                "filepath2.json",
+                "plain",
+                "expectedTwoFileFormatPlain.txt"
+            ],
+            [
+                "fileRecursive1.yaml",
+                "fileRecursive2.yaml",
+                "plain",
+                "expectedTwoFileFormatPlain.txt"
+            ],
+            [
+                "filepath1.json",
+                "filepath2.json",
+                "json",
+                "expectedTwoFileFormatJson.txt"
+            ],
+            [
+                "fileRecursive1.yaml",
+                "fileRecursive2.yaml",
+                "json",
+                "expectedTwoFileFormatJson.txt"
             ]
         ];
-        $formatters = [
-            ["stylish", "expectedTwoFileFormatStylish.txt"],
-            ["plain", "expectedTwoFileFormatPlain.txt"],
-            ["json", "expectedTwoFileFormatJson.txt"]
-        ];
-        $result = [];
-        foreach ($files as [$file1, $file2]) {
-            foreach ($formatters as [$formatter, $expected]) {
-                $result[] = [
-                    $this->getFullPathToFile($file1),
-                    $this->getFullPathToFile($file2),
-                    $formatter,
-                    $this->getFullPathToFile($expected)
-                ];
-            }
-        }
-        return $result;
     }
 
     /**

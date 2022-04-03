@@ -23,8 +23,8 @@ const END = "}";
  */
 function format(array $ast): string
 {
-    $factor = 0;
-    return getFormatStylish($ast, $factor);
+    $depth = 0;
+    return getFormatStylish($ast, $depth);
 }
 
 /**
@@ -39,26 +39,26 @@ function getFormatStylish(array $ast, int $depth = 0): string
 
 /**
  * @param array<mixed> $ast
- * @param int $factor
+ * @param int $depth
  * @return string
  */
-function buildBody(array $ast, int $factor): string
+function buildBody(array $ast, int $depth): string
 {
-    $result = array_map(function ($node) use ($factor) {
-        $value = normalizeValue(getValue($node), $factor);
+    $result = array_map(function ($node) use ($depth) {
+        $value = normalizeValue(getValue($node), $depth);
         $endOfLine = getKey($node) . ":" . SPACE . $value;
         switch (getType($node)) {
             case "unchanged":
             case "hasChildren":
-                return getUnchangedIndent($factor) . $endOfLine;
+                return getUnchangedIndent($depth) . $endOfLine;
             case "added":
-                return getAddedIndent($factor) . $endOfLine;
+                return getAddedIndent($depth) . $endOfLine;
             case "deleted":
-                return getDeletedIndent($factor) . $endOfLine;
+                return getDeletedIndent($depth) . $endOfLine;
             case "changed":
-                $firstContent = getDeletedIndent($factor) . $endOfLine;
-                $secondValue = normalizeValue(getSecondValue($node), $factor);
-                $secondContent = getAddedIndent($factor) . getKey($node) . ":" . SPACE . $secondValue;
+                $firstContent = getDeletedIndent($depth) . $endOfLine;
+                $secondValue = normalizeValue(getSecondValue($node), $depth);
+                $secondContent = getAddedIndent($depth) . getKey($node) . ":" . SPACE . $secondValue;
                 return $firstContent . "\n" . $secondContent;
             default:
                 throw new Exception("Not support key" . getType($node));
@@ -68,30 +68,30 @@ function buildBody(array $ast, int $factor): string
 }
 
 /**
- * @param int $factor
+ * @param int $depth
  * @return string
  */
-function getAddedIndent(int $factor): string
+function getAddedIndent(int $depth): string
 {
-    return str_repeat(getIndent(), $factor) . SPACE . SPACE . ADDED_SYMBOL . SPACE;
+    return str_repeat(getIndent(), $depth) . SPACE . SPACE . ADDED_SYMBOL . SPACE;
 }
 
 /**
- * @param int $factor
+ * @param int $depth
  * @return string
  */
-function getDeletedIndent(int $factor): string
+function getDeletedIndent(int $depth): string
 {
-    return str_repeat(getIndent(), $factor) . SPACE . SPACE . DELETED_SYMBOL . SPACE;
+    return str_repeat(getIndent(), $depth) . SPACE . SPACE . DELETED_SYMBOL . SPACE;
 }
 
 /**
- * @param int $factor
+ * @param int $depth
  * @return string
  */
-function getUnchangedIndent(int $factor): string
+function getUnchangedIndent(int $depth): string
 {
-    return str_repeat(getIndent(), $factor) . getIndent();
+    return str_repeat(getIndent(), $depth) . getIndent();
 }
 
 /**
@@ -105,13 +105,13 @@ function getIndent(): string
 
 /**
  * @param mixed $node
- * @param int $factor
+ * @param int $depth
  * @return string
  */
-function normalizeValue($node, int $factor): string
+function normalizeValue($node, int $depth): string
 {
      return (is_array($node)) ?
-         getFormatStylish($node, $factor + 1) :
+         getFormatStylish($node, $depth + 1) :
          normalizeBooleanAndNull($node);
 }
 
