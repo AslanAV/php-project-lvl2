@@ -64,10 +64,10 @@ function getMapAst(string $key, array $firstContentFromFile, array $secondConten
 }
 
 /**
- * @param array<mixed> $content
+ * @param mixed $content
  * @return mixed
  */
-function normalizeContent($content)
+function normalizeContent(mixed $content)
 {
     $iter = function ($content) use (&$iter) {
         if (!is_array($content)) {
