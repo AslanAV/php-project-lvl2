@@ -22,94 +22,6 @@ class GenDiffTest extends TestCase
         $this->assertStringEqualsFile($expected, gendiff($file1, $file2, $format));
     }
 
-//    /**
-//     * @return array<int, array<int, string>>
-//     */
-//    public function diffTwoFileProvider()
-//    {
-//        return [
-//            [
-//                $this->getFullPathToFile("filepath1.json"),
-//                $this->getFullPathToFile("filepath2.json"),
-//                "stylish",
-//                $this->getFullPathToFile("expectedTwoFileFormatStylish.txt")
-//            ],
-//            [
-//                $this->getFullPathToFile("fileRecursive1.yaml"),
-//                $this->getFullPathToFile("fileRecursive2.yaml"),
-//                "stylish",
-//                $this->getFullPathToFile("expectedTwoFileFormatStylish.txt")
-//            ],
-//            [
-//                $this->getFullPathToFile("filepath1.json"),
-//                $this->getFullPathToFile("filepath2.json"),
-//                "plain",
-//                $this->getFullPathToFile("expectedTwoFileFormatPlain.txt")
-//            ],
-//            [
-//                $this->getFullPathToFile("fileRecursive1.yaml"),
-//                $this->getFullPathToFile("fileRecursive2.yaml"),
-//                "plain",
-//                $this->getFullPathToFile("expectedTwoFileFormatPlain.txt")
-//            ],
-//            [
-//                $this->getFullPathToFile("filepath1.json"),
-//                $this->getFullPathToFile("filepath2.json"),
-//                "json",
-//                $this->getFullPathToFile("expectedTwoFileFormatJson.txt")
-//            ],
-//            [
-//                $this->getFullPathToFile("fileRecursive1.yaml"),
-//                $this->getFullPathToFile("fileRecursive2.yaml"),
-//                "json",
-//                $this->getFullPathToFile("expectedTwoFileFormatJson.txt")
-//            ]
-//        ];
-//    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    private function getFullPathToFile(string $path): string
-    {
-        return __DIR__ . "/fixtures/" . $path;
-    }
-
-//    /**
-//     * @return string
-//     */
-//    private function getTestFiles()
-//    {
-//        $files = [
-//            [
-//                "filepath1.json",
-//                "filepath2.json"
-//            ],
-//            [
-//                "fileRecursive1.yaml",
-//                "fileRecursive2.yaml"
-//            ]
-//        ];
-//        $formatters = [
-//            ["stylish", "expectedTwoFileFormatStylish.txt"],
-//            ["plain", "expectedTwoFileFormatPlain.txt"],
-//            ["json", "expectedTwoFileFormatJson.txt"]
-//        ];
-//        $result = [];
-//        foreach ($files as [$file1, $file2]) {
-//            foreach ($formatters as [$formatter, $expected]) {
-//                $result[] = [
-//                    $this->getFullPathToFile($file1),
-//                    $this->getFullPathToFile($file2),
-//                    $formatter,
-//                    $this->getFullPathToFile($expected)
-//                ];
-//            }
-//        }
-//        print_r($result);
-//        return '';
-//    }
     /**
      * @return array<int, array<int, string>>
      */
@@ -142,5 +54,14 @@ class GenDiffTest extends TestCase
             }
         }
         return $result;
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    private function getFullPathToFile(string $path): string
+    {
+        return __DIR__ . "/fixtures/" . $path;
     }
 }
