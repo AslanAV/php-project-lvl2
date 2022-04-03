@@ -19,6 +19,7 @@ class GenDiffTest extends TestCase
      */
     public function testGendiffTwofile($file1, $file2, $format, $expected)
     {
+        //$temp = $this->getTestFiles();
         $this->assertStringEqualsFile($expected, gendiff($file1, $file2, $format));
     }
 
@@ -75,4 +76,28 @@ class GenDiffTest extends TestCase
     {
         return __DIR__ . "/fixtures/" . $path;
     }
+
+//    /**
+//     * @return string
+//     */
+//    private function getTestFiles()
+//    {
+//        $files = scandir('./tests/fixtures');
+//        $filteredFiles = array_filter($files, fn ($file) => $file !== "." && $file !== "..");
+//
+//        $expectedFiles = array_filter($filteredFiles, fn ($file) => pathinfo($file, PATHINFO_EXTENSION) === 'txt');
+//
+//        $yamlFixtures = array_filter(
+//            $filteredFiles,
+//            fn ($file) => pathinfo($file, PATHINFO_EXTENSION) === 'yml' ||
+//            pathinfo($file, PATHINFO_EXTENSION) === 'yaml'
+//        );
+//
+//        $jsonFixtures = array_filter($filteredFiles, fn ($file) => pathinfo($file, PATHINFO_EXTENSION) === 'json');
+//
+//        $formatters = ['stylish', 'plain', 'json'];
+//
+//
+//        print_r($jsonFixtures);
+//    }
 }

@@ -11,7 +11,7 @@ use function Differ\Formatters\Json\format as formatJson;
  * @param string $format
  * @return string
  */
-function formatToString(array $ast, string $format): string
+function format(array $ast, string $format): string
 {
     switch ($format) {
         case "stylish":

@@ -6,7 +6,7 @@ use Exception;
 
 use function Differ\Parsers\parse;
 use function Differ\BuildAst\buildAst;
-use function Differ\Formatters\formatToString;
+use function Differ\Formatters\format;
 
 /**
  * @param string $firstFile
@@ -16,18 +16,18 @@ use function Differ\Formatters\formatToString;
  */
 function genDiff(string $firstFile, string $secondFile, string $format = 'stylish'): string
 {
-    $firstContent = getContentFromFile($firstFile);
-    $secondContent = getContentFromFile($secondFile);
+    $firstContent = getContentFromFileAndParse($firstFile);
+    $secondContent = getContentFromFileAndParse($secondFile);
     $ast = buildAst($firstContent, $secondContent);
 
-    return formatToString($ast, $format);
+    return format($ast, $format);
 }
 
 /**
  * @param string $file
  * @return array<string>
  */
-function getContentFromFile(string $file): array
+function getContentFromFileAndParse(string $file): array
 {
     $fileWithFullPath = getFullPathToFile($file);
     $fileContent = file_get_contents($fileWithFullPath);

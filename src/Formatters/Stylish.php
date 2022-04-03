@@ -10,8 +10,8 @@ use function Differ\BuildAst\getValue;
 use function Differ\BuildAst\getChildren;
 use function Differ\BuildAst\getSecondValue;
 
-const ADDED = "+";
-const DELETED = "-";
+const ADDED_SYMBOL = "+";
+const DELETED_SYMBOL = "-";
 const SPACE = " ";
 
 const START = "{\n";
@@ -29,12 +29,12 @@ function format(array $ast): string
 
 /**
  * @param array<mixed> $ast
- * @param int $factor
+ * @param int $depth
  * @return string
  */
-function getFormatStylish(array $ast, int $factor = 0): string
+function getFormatStylish(array $ast, int $depth = 0): string
 {
-    return START . buildBody($ast, $factor) . str_repeat(getIndent(), $factor) . END;
+    return START . buildBody($ast, $depth) . str_repeat(getIndent(), $depth) . END;
 }
 
 /**
@@ -73,7 +73,7 @@ function buildBody(array $ast, int $factor): string
  */
 function getAddedIndent(int $factor): string
 {
-    return str_repeat(getIndent(), $factor) . SPACE . SPACE . ADDED . SPACE;
+    return str_repeat(getIndent(), $factor) . SPACE . SPACE . ADDED_SYMBOL . SPACE;
 }
 
 /**
@@ -82,7 +82,7 @@ function getAddedIndent(int $factor): string
  */
 function getDeletedIndent(int $factor): string
 {
-    return str_repeat(getIndent(), $factor) . SPACE . SPACE . DELETED . SPACE;
+    return str_repeat(getIndent(), $factor) . SPACE . SPACE . DELETED_SYMBOL . SPACE;
 }
 
 /**
