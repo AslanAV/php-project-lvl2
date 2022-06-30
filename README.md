@@ -6,7 +6,7 @@
 
 ## Setup
 ```sh
-$ git clone https://github.com/hexlet-boilerplates/php-package.git
+$ git clone https://github.com/AslanAV/php-project-lvl2.git
 
 $ make install
 ```
